@@ -12,9 +12,7 @@
 
   <target name="integrationTests" depends="compile">
     <fail unless="server.url">Must set server.url</fail>
-    <fail unless="keycloak.authUrl">Must set keycloak.authUrl</fail>
     <property name="junit.sysproperty.server.url" value="${server.url}" />
-    <property name="junit.sysproperty.keycloak.authUrl" value="${keycloak.authUrl}" />
     <property name="junit.allowInternetAccess" value="true" /><!-- Needed to access supposedly non-local services -->
     <runTests name="integrationTests" />
   </target>
