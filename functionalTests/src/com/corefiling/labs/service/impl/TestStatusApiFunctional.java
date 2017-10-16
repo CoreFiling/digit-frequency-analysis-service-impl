@@ -1,4 +1,4 @@
-package com.corefiling.labs.digitFrequencyAnalysisServiceImpl.impl;
+package com.corefiling.labs.service.impl;
 
 import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.API_VERSION_PREFIX;
 import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.SERVICE_NAME;
@@ -13,10 +13,10 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.corefiling.nimbusTools.springBootBase.testSupport.AbstractSpringBootFunctionalTest;
 import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.StatusResponse;
 import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.StatusResponse.StatusEnum;
-import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.DigitFrequencyAnalysisServiceImplConfiguration;
+import com.corefiling.labs.service.DigitFrequencyAnalysisServiceImplConfiguration;
+import com.corefiling.nimbusTools.springBootBase.testSupport.AbstractSpringBootFunctionalTest;
 
 /**
  * Functional tests for {@link StatusApiImpl}.

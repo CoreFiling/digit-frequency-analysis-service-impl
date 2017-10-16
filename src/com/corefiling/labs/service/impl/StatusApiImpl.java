@@ -1,4 +1,4 @@
-package com.corefiling.labs.digitFrequencyAnalysisServiceImpl.impl;
+package com.corefiling.labs.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.corefiling.labs.digitFrequencyAnalysisServiceImpl.impl;
+package com.corefiling.labs.service.impl;
 
 import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.API_VERSION_PREFIX;
 import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.SERVICE_NAME;

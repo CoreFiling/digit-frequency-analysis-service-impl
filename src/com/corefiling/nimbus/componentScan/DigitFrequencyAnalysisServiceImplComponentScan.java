@@ -4,7 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.ApiComponentScanMarker;
-import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.DigitFrequencyAnalysisServiceImplComponentScanMarker;
+import com.corefiling.labs.service.DigitFrequencyAnalysisServiceImplComponentScanMarker;
 import com.corefiling.shared.annotations.NoObfuscate;
 
 /**
