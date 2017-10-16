@@ -86,14 +86,10 @@ deploy:service:
     expire_in: 1 week
     paths:
       - service.url
-      - keycloak.url
   script:
     - BASE_DOMAIN="$TILLER_NAMESPACE.kube.int.corefiling.com"
     - SERVICE_URL="https://$BASE_DOMAIN"
-    - KEYCLOAK_URL="https://key-$BASE_DOMAIN/auth"
-    - sed -i "s@KEYCLOAK_AUTH_URL@$KEYCLOAK_URL@g" charts/integration-tests/extra/keycloakService.json
     - echo "$SERVICE_URL" > service.url
-    - echo "$KEYCLOAK_URL" > keycloak.url
     - echo "Deploying to $SERVICE_URL"
     - cd charts
     - helm dependency update $HELM_CHART
@@ -113,11 +109,8 @@ test:integration:
     - deploy:service
   script:
     - SERVICE_URL=`cat service.url`
-    - KEYCLOAK_URL=`cat keycloak.url`
-    - sed -i "s@KEYCLOAK_AUTH_URL@$KEYCLOAK_URL@g" integrationTests/src/keycloak.json
     - ant
       -Dserver.url=$SERVICE_URL
-      -Dkeycloak.authUrl=$KEYCLOAK_URL/
       integrationTests
 
 clean:undeploy:
