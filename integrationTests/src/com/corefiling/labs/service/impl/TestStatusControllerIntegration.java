@@ -23,7 +23,7 @@ import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.AbstractApiCli
 /**
  * Integration tests for the status API.
  */
-public class TestStatusApiIntegration extends AbstractApiClientIntegrationTest {
+public class TestStatusControllerIntegration extends AbstractApiClientIntegrationTest {
 
   private static final Pattern VERSION_REGEX = Pattern.compile("^[\\d]+\\.[\\d]+\\.[\\d]+(-dev\\.[\\d]+)?$");
   private static final Pattern EXTENDED_VERSION_REGEX = Pattern.compile("^[\\d]+\\.[\\d]+\\.[\\d]+(\\-[a-zA-Z\\d\\-\\.]+)?(\\+[a-zA-Z\\d\\-\\.]+)?$");
@@ -34,7 +34,7 @@ public class TestStatusApiIntegration extends AbstractApiClientIntegrationTest {
       final Properties projectProperties = new Properties();
       projectProperties.load(new FileInputStream(new File("project.properties")));
 
-      final ApiResponse<StatusResponse> response = new StatusApi(noRolesUser()).getStatusWithHttpInfo();
+      final ApiResponse<StatusResponse> response = new StatusApi(getClient()).getStatusWithHttpInfo();
       assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK.value());
 
       final StatusResponse status = response.getData();

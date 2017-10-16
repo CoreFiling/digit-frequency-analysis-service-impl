@@ -1,4 +1,4 @@
-package com.corefiling.labs.service.impl;
+package com.corefiling.labs.service.controllers;
 
 import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.API_VERSION_PREFIX;
 import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.SERVICE_NAME;
@@ -10,24 +10,39 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import java.util.regex.Pattern;
 
+import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.rules.SpringClassRule;
+import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
-import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.StatusResponse;
-import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.StatusResponse.StatusEnum;
+import com.corefiling.labs.Application;
+import com.corefiling.labs.model.StatusResponse;
+import com.corefiling.labs.model.StatusResponse.StatusEnum;
 import com.corefiling.labs.service.DigitFrequencyAnalysisServiceImplConfiguration;
-import com.corefiling.nimbusTools.springBootBase.testSupport.AbstractSpringBootFunctionalTest;
 
 /**
- * Functional tests for {@link StatusApiImpl}.
+ * Functional tests for {@link StatusController}.
  */
-public class TestStatusApiFunctional extends AbstractSpringBootFunctionalTest {
+@SpringBootTest(classes = {Application.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
+@ActiveProfiles("test")
+public class TestStatusControllerFunctional {
 
   private static final Pattern VERSION_REGEX = Pattern.compile("^[\\d]+\\.[\\d]+\\.[\\d]+(-dev\\.[\\d]+)?$");
   private static final Pattern EXTENDED_VERSION_REGEX = Pattern.compile("^[\\d]+\\.[\\d]+\\.[\\d]+(\\-[a-zA-Z\\d\\-\\.]+)?(\\+[a-zA-Z\\d\\-\\.]+)?$");
 
+  @ClassRule
+  public static final SpringClassRule SCR = new SpringClassRule();
+
+  @Rule
+  public final SpringMethodRule _springMethodRule = new SpringMethodRule();
+
   @Autowired
-  private StatusApiImpl _sut;
+  private StatusController _sut;
 
   @Test
   public void statusIsOK() throws Exception {

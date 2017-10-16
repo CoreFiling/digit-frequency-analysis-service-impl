@@ -9,7 +9,7 @@ import org.apache.http.HttpStatus;
 
 import com.corefiling.labs.analysis.FactRequester;
 import com.corefiling.labs.analysis.NumericFactValue;
-import com.corefiling.nimbusTools.springBootBase.exception.NotFoundException;
+import com.corefiling.labs.exception.NotFoundException;
 import com.corefiling.platform.instanceService.ApiClient;
 import com.corefiling.platform.instanceService.ApiException;
 import com.corefiling.platform.instanceService.FactsApi;

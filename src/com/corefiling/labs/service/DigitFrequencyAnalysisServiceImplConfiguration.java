@@ -9,8 +9,12 @@ import org.springframework.web.context.annotation.RequestScope;
 
 import com.corefiling.labs.analysis.FactRequester;
 import com.corefiling.labs.analysis.impl.FactRequesterImpl;
-import com.corefiling.nimbusTools.springBootBase.licensing.LicenceValidatorBuilder;
-import com.corefiling.nimbusTools.springBootBase.licensing.ServiceInfo;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * Service configuration.
@@ -22,22 +26,21 @@ public class DigitFrequencyAnalysisServiceImplConfiguration {
   private String _instanceServiceBasePath;
 
   @Bean
-  public ServiceInfo serviceInfo() {
-    return () -> "0.1.0";
-  }
-
-  /**
-   * Delete this bean to enable licence checks.
-   */
-  @Bean
-  public LicenceValidatorBuilder getLicenceValidatorBuilder() {
-    return LicenceValidatorBuilder.NO_LICENSING;
-  }
-
-  @Bean
   @RequestScope
   public FactRequester factRequester(final HttpServletRequest request) {
     final String accessToken = request.getHeader("Authorization").replaceFirst("Bearer ", "");
     return new FactRequesterImpl(_instanceServiceBasePath, accessToken);
+  }
+
+  @Bean
+  public ObjectMapper objectMapper() {
+    final ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.setSerializationInclusion(Include.NON_NULL);
+    objectMapper.setSerializationInclusion(Include.NON_ABSENT);
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.setDateFormat(new ISO8601DateFormat());
+    objectMapper.registerModule(new Jdk8Module());
+    objectMapper.registerModule(new JavaTimeModule());
+    return objectMapper;
   }
 }
