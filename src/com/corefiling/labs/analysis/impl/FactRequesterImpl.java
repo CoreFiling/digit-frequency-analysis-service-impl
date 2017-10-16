@@ -44,8 +44,8 @@ public class FactRequesterImpl implements FactRequester {
                 return fact.getNumericValue() != null;
               }
               @Override
-              public double getValue() {
-                return fact.getNumericValue();
+              public String getValue() {
+                return fact.getReportedValue();
               }
             };
           })
