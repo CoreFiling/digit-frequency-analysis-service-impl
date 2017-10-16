@@ -21,6 +21,8 @@ spec:
             - name: http
               containerPort: 80
           env:
+            - name: com_corefiling_labs_instanceServer
+              value: {{ .Values.instanceServerPath }}
             - name: licence_jar
               value: {{ .Values.licenceJar }}
             - name: spring_profiles_active
