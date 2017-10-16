@@ -6,4 +6,4 @@ keycloak:
 
 licence.jar: https://svn-devenv.int.corefiling.com/svn/trunk/licences/cflInternal/internal.beacon.all.licence.jar
 
-com.corefiling.labs.instanceServer: https://labs.cfl.io/instance-server
+com.corefiling.labs.instanceServer: https://platform-api.cfl.io/instance-service/
