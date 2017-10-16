@@ -1,5 +1,6 @@
 package com.corefiling.labs.analysis.impl;
 
+import static com.corefiling.platform.instanceService.model.Fact.TypeEnum.NUMERICFACT;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class FactRequesterImpl implements FactRequester {
   public List<NumericFactValue> getFacts(final UUID filingVersionId) {
     try {
       return _api.getFacts(filingVersionId, null).stream()
-          .filter(fact -> fact.getType() == com.corefiling.platform.instanceService.model.Fact.TypeEnum.NUMERICFACT)
+          .filter(fact -> fact.getType() == NUMERICFACT)
           .map(fact -> (NumericFact) fact)
           .map(fact -> {
             return new NumericFactValue() {
@@ -52,7 +53,7 @@ public class FactRequesterImpl implements FactRequester {
     }
     catch (final ApiException e) {
       if (HttpStatus.SC_NOT_FOUND == e.getCode()) {
-        throw new NotFoundException(e.getResponseBody());
+        throw new NotFoundException("Could not find filing with ID: " + filingVersionId, e);
       }
       throw new FailedToGetFactsException("Failed to get facts for instance.", e);
     }
