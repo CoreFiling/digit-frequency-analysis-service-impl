@@ -16,6 +16,7 @@
     <dependency org="com.corefiling.labs" name="digit-frequency-analysis-service-abstract-spring-boot" rev="0.1.0-dev.33483" />
     <dependency org="com.corefiling.nimbusTools" name="spring-boot-base" rev="0.18.3-dev.30031" conf="obf; sources->@,test-sources; test->@" />
     <dependency org="com.corefiling.republished" name="shared" rev="0.9-r487571" conf="obf" />
+    <dependency org="com.corefiling.platform" name="instance-service" rev="1.5.0" conf="obf" />
 
     <!-- Test -->
     <dependency org="com.corefiling.labs" name="digit-frequency-analysis-service" rev="0.1.0-dev.33483" conf="test, sources" />
