@@ -5,7 +5,3 @@ ingress:
 
 digit-frequency-analysis-service:
   pullPolicy: IfNotPresent
-  keycloak:
-    secretName: digit-frequency-analysis-service-keycloak
-    resourceServer:
-      clientId: integration-tests
