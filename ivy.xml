@@ -1,0 +1,33 @@
+<ivy-module version="2.0">
+  <info organisation="com.corefiling.labs" module="digit-frequency-analysis-service-impl" />
+  <configurations>
+    <conf name="default" description="Runtime artifacts and dependencies" />
+    <conf name="zkm" description="ZKM Changelog" />
+    <conf name="sources" visibility="private" />
+    <conf name="obf" visibility="private" description="The dependencies to obfuscate." />
+    <conf name="test" visibility="private" extends="default, obf" />
+    <conf name="dev" visibility="private" />
+  </configurations>
+  <publications>
+    <artifact ext="zip" packaging="zip" />
+    <artifact type="zkm-changelog" ext="zkm-changelog.txt" conf="zkm" />
+  </publications>
+  <dependencies defaultconf="obf, sources" defaultconfmapping="default->@(dist); obf->default(dist); sources->@; test->default(dist); dev->default">
+    <dependency org="com.corefiling.labs" name="digit-frequency-analysis-service-abstract-spring-boot" rev="0.1.0-dev.33483" />
+    <dependency org="com.corefiling.nimbusTools" name="spring-boot-base" rev="0.18.3-dev.30031" conf="obf; sources->@,test-sources; test->@" />
+    <dependency org="com.corefiling.republished" name="shared" rev="0.9-r487571" conf="obf" />
+
+    <!-- Test -->
+    <dependency org="com.corefiling.labs" name="digit-frequency-analysis-service" rev="0.1.0-dev.33483" conf="test, sources" />
+    <dependency org="cfl-licences" name="internal.beacon.all.licence" rev="latest.integration" conf="test" />
+    <dependency org="com.google.truth" name="truth" rev="0.30" conf="test, sources" />
+    <dependency org="junit" name="junit" rev="4.12" conf="test, sources" />
+    <dependency org="org.springframework.boot" name="spring-boot-starter-test" rev="1.5.3.RELEASE" conf="test, sources" />
+
+    <!-- The integration tests use a Keycloak 3 server which needs version 3 drivers to access it to set up the users etc. -->
+    <!-- Fortunately the version 3 drivers will access a Keycloak 2 server for the purposes of running the service normally. -->
+    <dependency org="org.keycloak" name="keycloak-admin-client" rev="3.2.1.Final" conf="test->default,provided; sources" />
+    <override org="org.keycloak" rev="3.2.1.Final" />
+
+  </dependencies>
+</ivy-module>

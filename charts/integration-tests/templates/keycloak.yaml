@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  ports:
+    - port: 30777
+      targetPort: 8080
+  selector:
+    app: keycloak
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: keycloak
+    spec:
+      containers:
+        - name: keycloak
+          image: "{{ if .Values.imageRegistry }}{{ .Values.imageRegistry }}/{{ end }}{{ .Values.keycloak.imageRepository }}/{{ .Values.keycloak.imageName }}:{{ .Values.keycloak.imageTag }}"
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: keycloak-config
+              mountPath: /etc/keycloak-config
+              readOnly: true
+          env:
+            - name: KEYCLOAK_USER
+              value: admin
+            - name: KEYCLOAK_PASSWORD
+              value: password
+            - name: IMPORT
+              value: /etc/keycloak-config/realm-export.json
+      volumes:
+        - name: keycloak-config
+          secret:
+            secretName: keycloak-config
+            items:
+              - key: realm-export.json
+                path: realm-export.json
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  creationTimestamp: null
+  name: keycloak-config
+data:
+  realm-export.json: {{ .Files.Get "extra/realm-export.json" | b64enc }}

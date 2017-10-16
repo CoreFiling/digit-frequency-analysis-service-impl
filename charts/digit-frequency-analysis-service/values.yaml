@@ -1,0 +1,8 @@
+imageRegistry: artifacts.int.corefiling.com:5000
+imageRepository: labs
+imageName: digit-frequency-analysis-service-impl
+imageTag: dev
+# Set pullPolicy to handle the default imageTag "dev" safely.
+pullPolicy: Always
+
+licenceJar: https://svn-devenv.int.corefiling.com/svn/trunk/licences/cflInternal/internal.beacon.all.licence.jar

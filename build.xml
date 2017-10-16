@@ -1,0 +1,21 @@
+<project name="digit-frequency-analysis-service-impl" basedir="." default="dist">
+  <property name="shared-ant.variant" value="spring-boot-base" />
+  <makeurl property="shared-ant.jar">
+    <fileset dir="${basedir}/tools" includes="shared-ant-*.jar" />
+  </makeurl>
+  <property name="shared-ant.url" value="jar:${shared-ant.jar}!" />
+  <import>
+    <url url="${shared-ant.url}/${shared-ant.variant}.xml" />
+  </import>
+
+  <property name="cfl.ivy.licensing.config" value="${basedir}/additional-licenses.json" />
+
+  <target name="integrationTests" depends="compile">
+    <fail unless="server.url">Must set server.url</fail>
+    <fail unless="keycloak.authUrl">Must set keycloak.authUrl</fail>
+    <property name="junit.sysproperty.server.url" value="${server.url}" />
+    <property name="junit.sysproperty.keycloak.authUrl" value="${keycloak.authUrl}" />
+    <property name="junit.allowInternetAccess" value="true" /><!-- Needed to access supposedly non-local services -->
+    <runTests name="integrationTests" />
+  </target>
+</project>

@@ -1,0 +1,16 @@
+imageRegistry: artifacts.int.corefiling.com:5000
+
+keycloak:
+  imageRepository: platform
+  imageName: keycloak
+  imageTag: 0.2.0-dev.28163
+
+ingress:
+  host: digit-frequency-analysis-service-tests.kube.int.corefiling.com
+
+digit-frequency-analysis-service:
+  pullPolicy: IfNotPresent
+  keycloak:
+    secretName: digit-frequency-analysis-service-keycloak
+    resourceServer:
+      clientId: integration-tests

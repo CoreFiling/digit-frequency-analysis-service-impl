@@ -1,0 +1,8 @@
+files:
+ - .gitlab-ci.yml
+ - ivy.xml
+ - tools/Dockerfile.run-ivy
+dependencies:
+  docker:
+    python: # Blocked on https://gitlab.int.corefiling.com/cfl-npm/dependency-updater/issues/16
+      skip: true

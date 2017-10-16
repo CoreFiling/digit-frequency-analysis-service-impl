@@ -1,0 +1,11 @@
+/gen/
+/build/
+/bin/
+/lib/
+/dist/
+/junit-xml/
+
+*.pyc
+.venv
+swagger-*.yml
+application-*.properties

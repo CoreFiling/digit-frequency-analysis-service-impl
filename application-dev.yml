@@ -1,0 +1,8 @@
+server:
+  port: 8601
+
+keycloak:
+  configurationFile: https://gitlab.int.corefiling.com/beacon/beacon/snippets/40/raw
+
+# Delete the licensing bean in DigitFrequencyAnalysisServiceImplConfiguration to enable licensing checks.
+licence.jar: https://svn-devenv.int.corefiling.com/svn/trunk/licences/cflInternal/internal.beacon.all.licence.jar

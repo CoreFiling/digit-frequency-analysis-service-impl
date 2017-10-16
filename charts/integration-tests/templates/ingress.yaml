@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Chart.Name }}-ingress
+  labels:
+    app: {{ .Chart.Name }}-ingress
+    version: {{ .Chart.Version }}
+spec:
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - backend:
+              serviceName: digit-frequency-analysis-service
+              servicePort: 80
+    - host: key-{{ .Values.ingress.host }}
+      http:
+        paths:
+          - backend:
+              serviceName: keycloak
+              servicePort: 30777

@@ -1,0 +1,41 @@
+<project name="publish-ivy" xmlns:ivy="antlib:org.apache.ivy.ant" basedir="." default="publish">
+  <property name="ivy.dep.file" value="ivy.xml" />
+
+  <property name="ivy.install.version" value="2.4.0" />
+  <condition property="ivy.home" value="${env.IVY_HOME}">
+    <isset property="env.IVY_HOME" />
+  </condition>
+  <property name="ivy.home" value="${user.home}/.ant" />
+  <property name="ivy.jar.dir" value="${ivy.home}/lib" />
+  <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+
+  <target name="download-ivy" unless="offline">
+    <mkdir dir="${ivy.jar.dir}"/>
+    <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
+         dest="${ivy.jar.file}" usetimestamp="true"/>
+  </target>
+
+  <target name="init-ivy" depends="download-ivy">
+    <path id="ivy.lib.path">
+      <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
+    </path>
+    <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+  </target>
+
+  <target name="publish" depends="init-ivy">
+    <echo message="ivy.settings.file = ${ivy.settings.file}" />
+    <echo message="ivy.status = ${ivy.status}" />
+    <echo message="ivy.deliver.revision = ${ivy.deliver.revision}" />
+    <fail unless="ivy.settings.file">Must set ivy.settings.file</fail>
+    <fail unless="ivy.status">Must set ivy.status</fail>
+
+    <property name="cfl.ivy.publish.resolver" value="cfl-local-ivy-snapshots" />
+    <ivy:configure />
+    <ivy:resolve transitive="false" />
+    <ivy:deliver deliverpattern="ivy.xml" />
+    <ivy:publish resolver="${cfl.ivy.publish.resolver}" overwrite="true">
+      <ivy:artifacts pattern="dist/lib/[artifact]-[revision].[ext]"/>
+      <ivy:artifacts pattern="dist/lib/[artifact].[ext]"/>
+    </ivy:publish>
+  </target>
+</project>

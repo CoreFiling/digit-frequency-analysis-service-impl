@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+    version: {{ .Chart.Version }}
+spec:
+  replicas: {{ default 1 .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+        version: {{ .Chart.Version }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ if .Values.imageRegistry }}{{ .Values.imageRegistry }}/{{ end }}{{ if .Values.imageRepository }}{{ .Values.imageRepository }}/{{ end }}{{ .Values.imageName }}:{{ .Values.imageTag }}"
+          imagePullPolicy: {{ .Values.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+          env:
+            - name: licence_jar
+              value: {{ .Values.licenceJar }}
+            - name: spring_profiles_active
+              value: production, keycloak
+            - name: keycloak_configurationFile
+              value: 'file:/etc/keycloak/keycloak.json'
+            {{- with .Values.keycloak }}
+            - name: keycloak_resourceServer_clientId
+              value: {{ .resourceServer.clientId }}
+            {{- end }}
+          readinessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 1
+          volumeMounts:
+            - name: keycloak
+              mountPath: /etc/keycloak
+              readOnly: true
+      volumes:
+        - name: keycloak
+          secret:
+            secretName: {{ .Values.keycloak.secretName }}
+            items:
+              - key: keycloak.json
+                path: keycloak.json

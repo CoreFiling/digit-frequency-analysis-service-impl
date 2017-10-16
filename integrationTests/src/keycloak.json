@@ -1,0 +1,10 @@
+{
+  "realm": "master",
+  "auth-server-url": "KEYCLOAK_AUTH_URL",
+  "ssl-required": "external",
+  "resource": "integration-tests",
+  "credentials": {
+    "secret": "integration-tests-secret"
+  },
+  "use-resource-role-mappings": true
+}
