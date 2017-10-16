@@ -6,3 +6,5 @@ imageTag: dev
 pullPolicy: Always
 
 licenceJar: https://svn-devenv.int.corefiling.com/svn/trunk/licences/cflInternal/internal.beacon.all.licence.jar
+
+instanceServerPath: https://platform-api.cfl.io/instance-service/
