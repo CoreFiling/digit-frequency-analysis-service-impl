@@ -10,7 +10,7 @@ import org.junit.rules.ExpectedException;
  */
 public class AbstractApiClientIntegrationTest {
 
-  private static final String HOST = System.getProperty("server.url", "http://localhost:8601");
+  private static final String HOST = System.getProperty("service.url", "http://localhost:8601");
 
   private final ExpectedException _thrown = ExpectedException.none();
 
