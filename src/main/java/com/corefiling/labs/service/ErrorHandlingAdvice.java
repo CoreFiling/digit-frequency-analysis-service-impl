@@ -25,7 +25,6 @@ import org.springframework.web.multipart.support.MissingServletRequestPartExcept
 
 import com.corefiling.labs.exception.NotFoundException;
 import com.corefiling.labs.model.ErrorResponse;
-import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
  * Handles common errors.
@@ -65,9 +64,6 @@ public class ErrorHandlingAdvice {
 
   @Autowired
   private MessageSource _messages;
-
-  @Autowired(required = false) // Allow this to be overridden if required.
-  private JsonMappingExceptionHandler _jsonMappingExceptionHandler;
 
   /**
    * Handles binding errors from the validator (e.g. request parameters).
@@ -115,20 +111,8 @@ public class ErrorHandlingAdvice {
    */
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<ErrorResponse> handleUnreadableRequest(final HttpServletRequest request, final HttpMessageNotReadableException ex) {
-    final Throwable cause = ex.getCause();
-    if (cause instanceof JsonMappingException) {
-      return getJsonMappingExceptionHandler().handleJsonMappingException(request, (JsonMappingException) cause);
-    }
-    // there's apparently no other way to identify this common case
     final String error = ex.getMessage().startsWith("Required request body is missing:") ? "Request body must contain a JSON specification." : "Invalid request body.";
     return makeErrorResponse(request, ex, HttpStatus.BAD_REQUEST, error);
-  }
-
-  private JsonMappingExceptionHandler getJsonMappingExceptionHandler() {
-    if (_jsonMappingExceptionHandler == null) {
-      _jsonMappingExceptionHandler = new JsonMappingExceptionHandler();
-    }
-    return _jsonMappingExceptionHandler;
   }
 
 }
