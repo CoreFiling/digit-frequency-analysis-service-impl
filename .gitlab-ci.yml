@@ -14,6 +14,7 @@ stages:
   tags: [docker]
   image: artifacts.int.corefiling.com:5000/pdds/kube-deploy:0.8.1
   dependencies:
+    - build version
     - publish
   variables:
     TILLER_NAMESPACE: $CI_ENVIRONMENT_SLUG
@@ -43,6 +44,18 @@ assemble:
   cache:
     <<: *cache
     policy: push
+
+build version:
+  stage: build
+  tags:
+    - docker
+  image: artifacts.int.corefiling.com:5000/beacon/beacon/ci-build-version:local
+  artifacts:
+    expire_in: 1 week
+    paths:
+      - build.version
+  script:
+    - ci-build-version -f project.version > build.version
 
 test: *gradle
 
