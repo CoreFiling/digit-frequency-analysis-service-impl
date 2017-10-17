@@ -1,18 +1,20 @@
+image: openjdk:8
+
 # Setup
 stages:
   - build
   - test
+  - publish
   - deploy
   - integration
   - clean
 
-# Job Templates
-
+# Jobs
 .template_prepare_kube: &prepare_kube
   tags: [docker]
   image: artifacts.int.corefiling.com:5000/pdds/kube-deploy:0.8.1
   dependencies:
-    - build:compile
+    - publish
   variables:
     TILLER_NAMESPACE: $CI_ENVIRONMENT_SLUG
     HELM_CHART: integration-tests
@@ -22,7 +24,6 @@ stages:
     - echo "TILLER_NAMESPACE=$TILLER_NAMESPACE"
     - /kube/init $KUBE_AUTH_TOKEN $TILLER_NAMESPACE
 
-# Jobs
 .template-gradle: &gradle
   tags:
     - docker
@@ -50,7 +51,7 @@ publish:
   tags:
     - docker
     - docker-privileged
-  stage: deploy
+  stage: publish
   environment:
     name: artifactory
     url: https://artifacts.int.corefiling.com/webapp/#/builds/$CI_PROJECT_NAMESPACE%252F$CI_PROJECT_NAME
@@ -89,15 +90,13 @@ deploy:service:
     - /kube/checkRunning
 
 test:integration:
-  <<: *cfl-ant-lib
+  <<: *gradle
   stage: integration
   dependencies:
     - deploy:service
   script:
     - SERVICE_URL=`cat service.url`
-    - ant
-      -Dserver.url=$SERVICE_URL
-      integrationTests
+    - gradlew testIntegration
 
 clean:undeploy:
   <<: *prepare_kube
