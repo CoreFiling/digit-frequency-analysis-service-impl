@@ -64,7 +64,7 @@ task wrapper(type: Wrapper) {
 }
 
 task testIntegration(type: Test) {
-  testClassesDir = sourceSets.testIntegration.output.classesDir
+  testClassesDirs = sourceSets.testIntegration.output.classesDirs
   classpath = sourceSets.testIntegration.runtimeClasspath
 }
 
