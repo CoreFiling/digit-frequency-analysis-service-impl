@@ -55,7 +55,7 @@ build version:
     paths:
       - build.version
   script:
-    - ci-build-version -f project.version > build.version
+    - ci-build-version -b `cat gradle.properties | grep "^version = " | sed 's/version = //'` > build.version
 
 test: *gradle
 
