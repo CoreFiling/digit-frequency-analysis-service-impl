@@ -18,8 +18,9 @@ import org.junit.rules.ExpectedException;
  */
 public class AbstractApiClientIntegrationTest {
 
-  private static final String HOST = System.getProperty("service.url", "http://localhost:8601");
-  private static final String KEYCLOAK_HOST = System.getProperty("keycloak.url", "http://login.corefiling.com/auth/");
+  private static final String HOST = System.getProperty("service.url", "http://localhost:8601/");
+  private static final String INSTANCE_SERVICE_HOST = System.getProperty("com.corefiling.labs.instanceServer", "https://platform-api.cfl.io/instance-service/");
+  private static final String KEYCLOAK_HOST = System.getProperty("keycloak.url", "https://login.corefiling.com/auth/");
 
   private final ExpectedException _thrown = ExpectedException.none();
 
@@ -30,14 +31,14 @@ public class AbstractApiClientIntegrationTest {
 
   protected com.corefiling.labs.digitFrequencyAnalysisService.ApiClient createAuthenticatedClient() {
     final com.corefiling.labs.digitFrequencyAnalysisService.ApiClient client = new com.corefiling.labs.digitFrequencyAnalysisService.ApiClient();
-    client.setBasePath(URI.create(HOST).resolve("/v1").toString());
+    client.setBasePath(URI.create(HOST).resolve("v1/").toString());
     client.setAccessToken(getToken());
     return client;
   }
 
   protected com.corefiling.platform.instanceService.ApiClient createAuthenticatedInstanceServiceClient() {
     final com.corefiling.platform.instanceService.ApiClient client = new com.corefiling.platform.instanceService.ApiClient();
-    client.setBasePath(URI.create(HOST).resolve("/v1").toString());
+    client.setBasePath(URI.create(INSTANCE_SERVICE_HOST).resolve("v1/").toString());
     client.setAccessToken(getToken());
     return client;
   }
