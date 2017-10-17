@@ -57,9 +57,6 @@ publish:
     url: https://artifacts.int.corefiling.com/webapp/#/builds/$CI_PROJECT_NAMESPACE%252F$CI_PROJECT_NAME
   services:
     - docker:dind
-  only:
-    - develop@platform/gateway
-    - tags@platform/gateway
   variables:
     <<: *gradle_variables
     DOCKER_HOST: tcp://docker:2375
