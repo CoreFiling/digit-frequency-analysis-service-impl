@@ -99,6 +99,8 @@ deploy:service:
 testIntegration:
   <<: *gradle
   stage: integration
+  before_script:
+    - 'JAVA_OPTS=$JAVA_OPTS -Dserver.url=`cat service.url`'
   dependencies:
     - deploy:service
 
