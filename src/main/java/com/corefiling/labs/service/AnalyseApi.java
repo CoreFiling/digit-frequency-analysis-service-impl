@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 
 import com.corefiling.labs.model.AnalysisResponse;
 
+/**
+ * Analyse API.
+ */
 public interface AnalyseApi {
 
   ResponseEntity<AnalysisResponse> analyseFiling(UUID filingVersionId) throws Exception;
