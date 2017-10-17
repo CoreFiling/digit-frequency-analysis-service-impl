@@ -56,6 +56,11 @@ task wrapper(type: Wrapper) {
   gradleVersion = '4.1'
 }
 
+task testIntegration(type: Test) {
+  testClassesDir = sourceSets.testIntegration.output.classesDir
+  classpath = sourceSets.testIntegration.runtimeClasspath
+}
+
 dependencies {
   def hamcrestVersion = '2.0.0.0'
   def jacksonVersion = '2.8.8'

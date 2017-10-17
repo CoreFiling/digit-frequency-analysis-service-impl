@@ -89,14 +89,11 @@ deploy:service:
       --debug
     - /kube/checkRunning
 
-test:integration:
+testIntegration:
   <<: *gradle
   stage: integration
   dependencies:
     - deploy:service
-  script:
-    - SERVICE_URL=`cat service.url`
-    - gradlew testIntegration
 
 clean:undeploy:
   <<: *prepare_kube
