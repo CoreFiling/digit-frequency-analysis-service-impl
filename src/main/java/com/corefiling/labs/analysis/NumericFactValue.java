@@ -5,7 +5,7 @@ public interface NumericFactValue {
 
   boolean hasValue();
 
-  double getValue();
+  String getValue();
 
   boolean isMonetary();
 

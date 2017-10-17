@@ -7,14 +7,21 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.RequestScope;
 
+import com.corefiling.labs.analysis.DigitAnalyser;
 import com.corefiling.labs.analysis.FactRequester;
 import com.corefiling.labs.analysis.impl.FactRequesterImpl;
+<<<<<<< HEAD:src/main/java/com/corefiling/labs/service/DigitFrequencyAnalysisServiceImplConfiguration.java
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+=======
+import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
+import com.corefiling.nimbusTools.springBootBase.licensing.LicenceValidatorBuilder;
+import com.corefiling.nimbusTools.springBootBase.licensing.ServiceInfo;
+>>>>>>> develop:src/com/corefiling/labs/service/DigitFrequencyAnalysisServiceImplConfiguration.java
 
 /**
  * Service configuration.
@@ -33,6 +40,7 @@ public class DigitFrequencyAnalysisServiceImplConfiguration {
   }
 
   @Bean
+<<<<<<< HEAD:src/main/java/com/corefiling/labs/service/DigitFrequencyAnalysisServiceImplConfiguration.java
   public ObjectMapper objectMapper() {
     final ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(Include.NON_NULL);
@@ -43,4 +51,10 @@ public class DigitFrequencyAnalysisServiceImplConfiguration {
     objectMapper.registerModule(new JavaTimeModule());
     return objectMapper;
   }
+=======
+  public DigitAnalyser digitAnalyser() {
+    return facts -> new AnalysisResponse();
+  }
+
+>>>>>>> develop:src/com/corefiling/labs/service/DigitFrequencyAnalysisServiceImplConfiguration.java
 }
