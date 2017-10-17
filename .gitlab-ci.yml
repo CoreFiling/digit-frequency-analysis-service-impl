@@ -65,9 +65,6 @@ publish:
     - docker
     - docker-privileged
   stage: publish
-  environment:
-    name: artifactory
-    url: https://artifacts.int.corefiling.com/webapp/#/builds/$CI_PROJECT_NAMESPACE%252F$CI_PROJECT_NAME
   services:
     - docker:dind
   variables:
