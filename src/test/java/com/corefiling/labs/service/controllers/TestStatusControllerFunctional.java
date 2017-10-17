@@ -70,7 +70,7 @@ public class TestStatusControllerFunctional {
   /**
    * Check version in
    * {@link DigitFrequencyAnalysisServiceImplConfiguration#serviceInfo()} matches
-   * project.properties.
+   * gradle.properties.
    */
   @Test
   public void implVersionMatchesProjectProperties() throws Exception {
@@ -80,9 +80,9 @@ public class TestStatusControllerFunctional {
     // If the following assert fails then you probably need to update the
     // implementation version number in
     // DigitFrequencyAnalysisServiceImplConfiguration.serviceInfo() to agree with the one in
-    // the project.properties file.
+    // the gradle.properties file.
     final Properties projectProperties = new Properties();
-    projectProperties.load(new FileInputStream(new File("project.properties")));
+    projectProperties.load(new FileInputStream(new File("gradle.properties")));
     final String projectVersion = projectProperties.get("version").toString();
     final String projectVersionBit = projectVersion.split("-")[0];
     assertThat(statusResponse.getImplVersion(), equalTo(projectVersionBit));

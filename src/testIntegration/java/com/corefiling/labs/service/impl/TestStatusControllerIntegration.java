@@ -34,8 +34,8 @@ public class TestStatusControllerIntegration extends AbstractApiClientIntegratio
   @Test
   public void getStatus() throws Exception {
     try {
-      final Properties projectProperties = new Properties();
-      projectProperties.load(new FileInputStream(new File("project.properties")));
+      final Properties gradleProperties = new Properties();
+      gradleProperties.load(new FileInputStream(new File("gradle.properties")));
 
       final ApiResponse<StatusResponse> response = new StatusApi(getClient()).getStatusWithHttpInfo();
       assertThat(response.getStatusCode(), equalTo(HttpStatus.OK.value()));
@@ -50,8 +50,8 @@ public class TestStatusControllerIntegration extends AbstractApiClientIntegratio
 
       // If the following assert fails then you probably need to update the implementation
       // version number in DigitFrequencyAnalysisServiceImplConfiguration.serviceInfo() to agree
-      // with the one in the project.properties file.
-      final String projectVersion = projectProperties.get("version").toString();
+      // with the one in the gradle.properties file.
+      final String projectVersion = gradleProperties.get("version").toString();
       final String projectVersionBit = projectVersion.split("-")[0];
       assertThat(status.getImplVersion(), equalTo(projectVersionBit));
     }
