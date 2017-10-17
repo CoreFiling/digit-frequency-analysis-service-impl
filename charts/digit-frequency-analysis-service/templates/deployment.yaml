@@ -23,30 +23,11 @@ spec:
           env:
             - name: com_corefiling_labs_instanceServer
               value: {{ .Values.instanceServerPath }}
-            - name: licence_jar
-              value: {{ .Values.licenceJar }}
             - name: spring_profiles_active
-              value: production, keycloak
-            - name: keycloak_configurationFile
-              value: 'file:/etc/keycloak/keycloak.json'
-            {{- with .Values.keycloak }}
-            - name: keycloak_resourceServer_clientId
-              value: {{ .resourceServer.clientId }}
-            {{- end }}
+              value: production
           readinessProbe:
             tcpSocket:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 5
             timeoutSeconds: 1
-          volumeMounts:
-            - name: keycloak
-              mountPath: /etc/keycloak
-              readOnly: true
-      volumes:
-        - name: keycloak
-          secret:
-            secretName: {{ .Values.keycloak.secretName }}
-            items:
-              - key: keycloak.json
-                path: keycloak.json

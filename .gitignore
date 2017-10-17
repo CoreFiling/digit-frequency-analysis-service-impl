@@ -9,3 +9,7 @@
 .venv
 swagger-*.yml
 application-*.properties
+/.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
