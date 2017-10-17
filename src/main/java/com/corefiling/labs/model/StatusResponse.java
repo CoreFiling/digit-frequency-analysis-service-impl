@@ -4,8 +4,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.Preconditions;
 
@@ -13,17 +11,11 @@ import com.google.common.base.Preconditions;
  * StatusResponse.
  */
 public class StatusResponse {
-  @JsonIgnore
   private String _apiVersion = null;
-
-  @JsonIgnore
   private String _implVersion = null;
-
-  @JsonIgnore
   private Optional<String> _message = Optional.empty();
-
-  @JsonIgnore
   private String _name = null;
+  private StatusEnum _status = null;
 
   /**
    * Service status.
@@ -48,16 +40,13 @@ public class StatusResponse {
     @JsonCreator
     public static StatusEnum fromValue(final String text) {
       for (final StatusEnum b : StatusEnum.values()) {
-          if (String.valueOf(b._value).equals(text)) {
-              return b;
-          }
+        if (String.valueOf(b._value).equals(text)) {
+          return b;
+        }
       }
       return null;
     }
   }
-
-  @JsonIgnore
-  private StatusEnum _status = null;
 
   public StatusResponse apiVersion(final String apiVersion) {
     setApiVersion(apiVersion);
@@ -68,7 +57,6 @@ public class StatusResponse {
    * API version number.
    * @return apiVersion
   **/
-  @JsonProperty("apiVersion")
   public String getApiVersion() {
     return _apiVersion;
   }
@@ -86,7 +74,6 @@ public class StatusResponse {
    * Implementation version number.
    * @return implVersion
   **/
-  @JsonProperty("implVersion")
   public String getImplVersion() {
     return _implVersion;
   }
@@ -104,7 +91,6 @@ public class StatusResponse {
    * Failure message, if any.
    * @return message
   **/
-  @JsonProperty("message")
   public Optional<String> getMessage() {
     return _message;
   }
@@ -122,7 +108,6 @@ public class StatusResponse {
    * Name of this service.
    * @return name
   **/
-  @JsonProperty("name")
   public String getName() {
     return _name;
   }
@@ -140,7 +125,6 @@ public class StatusResponse {
    * Service status.
    * @return status
   **/
-  @JsonProperty("status")
   public StatusEnum getStatus() {
     return _status;
   }
