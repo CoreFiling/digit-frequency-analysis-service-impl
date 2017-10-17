@@ -7,8 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.RequestScope;
 
+import com.corefiling.labs.analysis.DigitAnalyser;
 import com.corefiling.labs.analysis.FactRequester;
 import com.corefiling.labs.analysis.impl.FactRequesterImpl;
+import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
 import com.corefiling.nimbusTools.springBootBase.licensing.LicenceValidatorBuilder;
 import com.corefiling.nimbusTools.springBootBase.licensing.ServiceInfo;
 
@@ -40,4 +42,10 @@ public class DigitFrequencyAnalysisServiceImplConfiguration {
     final String accessToken = request.getHeader("Authorization").replaceFirst("Bearer ", "");
     return new FactRequesterImpl(_instanceServiceBasePath, accessToken);
   }
+
+  @Bean
+  public DigitAnalyser digitAnalyser() {
+    return facts -> new AnalysisResponse();
+  }
+
 }

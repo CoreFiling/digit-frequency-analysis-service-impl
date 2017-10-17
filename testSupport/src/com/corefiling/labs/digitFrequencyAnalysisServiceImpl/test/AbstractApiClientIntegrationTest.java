@@ -1,18 +1,13 @@
 package com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test;
 
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.keycloak.authorization.client.AuthzClient;
 import org.keycloak.util.JsonSerialization;
-import org.springframework.http.HttpStatus;
 
+import com.corefiling.labs.digitFrequencyAnalysisService.ApiClient;
 import com.corefiling.nimbusTools.springBootBase.protectedResources.KeycloakProtectedResources;
 import com.corefiling.nimbusTools.springBootBase.testSupport.AbstractIntegrationTest;
-import com.corefiling.labs.digitFrequencyAnalysisService.ApiClient;
-import com.corefiling.labs.digitFrequencyAnalysisService.ApiException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 
 /**
