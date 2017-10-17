@@ -1,8 +1,14 @@
 plugins {
-  id 'com.jayanslow.gradle.semver-ci' version '0.3.1'
   id 'java'
   id 'checkstyle'
+  id 'maven-publish'
+  id 'com.jayanslow.gradle.semver-ci' version '0.3.1'
+  id 'com.bmuschko.docker-java-application' version '3.0.12'
 }
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'com.bmuschko.docker-java-application'
 
 sourceSets {
   testSupport {
@@ -46,6 +52,7 @@ repositories {
 }
 
 group = property('group.maven')
+mainClassName = property('java.main')
 
 ext {
   springBootVersion = '1.5.3.RELEASE'
@@ -83,3 +90,14 @@ dependencies {
   testIntegrationCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.33483'
   testIntegrationCompile configurations.testSupportCompile
 }
+
+docker {
+  javaApplication {
+    baseImage = 'openjdk:8-alpine'
+    maintainer = 'CoreFiling'
+    ports = [80]
+    tag = "artifacts.int.corefiling.com:5000/${property('group.name')}/$name:$version"
+  }
+}
+
+publish.dependsOn dockerPushImage
