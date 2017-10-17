@@ -37,7 +37,7 @@ public class TestStatusControllerIntegration extends AbstractApiClientIntegratio
       final Properties gradleProperties = new Properties();
       gradleProperties.load(new FileInputStream(new File("gradle.properties")));
 
-      final ApiResponse<StatusResponse> response = new StatusApi(getClient()).getStatusWithHttpInfo();
+      final ApiResponse<StatusResponse> response = new StatusApi(createAuthenticatedClient()).getStatusWithHttpInfo();
       assertThat(response.getStatusCode(), equalTo(HttpStatus.OK.value()));
 
       final StatusResponse status = response.getData();

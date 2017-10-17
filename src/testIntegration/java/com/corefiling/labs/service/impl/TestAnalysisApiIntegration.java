@@ -13,29 +13,33 @@ import org.junit.Test;
 import com.corefiling.labs.digitFrequencyAnalysisService.AnalysisApi;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponse;
 import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.AbstractApiClientIntegrationTest;
+import com.corefiling.platform.instanceService.ApiClient;
 import com.google.common.base.Preconditions;
 
 /** Test /analyse. */
 public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest {
 
+  private final ApiClient _instanceServiceClient = createAuthenticatedInstanceServiceClient();
+  private final AnalysisApi _analysisApi = new AnalysisApi(createAuthenticatedClient());
+
   @Test
   public void testRandomlyGeneratedInput() throws Exception {
     final Random random = new Random(123456789L);
-    final UUID filingVersionId = new FilingInserter(instanceServiceClient()) {
+    final UUID filingVersionId = new FilingInserter(_instanceServiceClient) {
       @Override
       protected String getValue(final int i) {
         return String.valueOf(random.nextDouble() * 10000);
       }
     }.insert();
 
-    final AnalysisResponse response = new AnalysisApi(getClient()).analyseFiling(filingVersionId);
+    final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
     assertThat(response.getChiSquared(), greaterThan(15.5));
     assertThat(response.getMeanAbsoluteDeviation(), greaterThan(0.05));
   }
 
   @Test
   public void testDataThatFollowsBenfordsLaw() throws Exception {
-    final UUID filingVersionId = new FilingInserter(instanceServiceClient()) {
+    final UUID filingVersionId = new FilingInserter(_instanceServiceClient) {
       @Override
       protected String getValue(final int i) {
         return String.valueOf(getValueAsInteger((int) (i * (100.0 / getNumberOfFacts()))));
@@ -70,14 +74,14 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       }
     }.insert();
 
-    final AnalysisResponse response = new AnalysisApi(getClient()).analyseFiling(filingVersionId);
+    final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
     assertThat(response.getChiSquared(), lessThan(15.5));
     assertThat(response.getMeanAbsoluteDeviation(), lessThan(0.05));
   }
 
   @Test
   public void testNotEnoughData() throws Exception {
-    final UUID filingVersionId = new FilingInserter(instanceServiceClient()) {
+    final UUID filingVersionId = new FilingInserter(_instanceServiceClient) {
       @Override
       protected int getNumberOfFacts() {
         return 5;
@@ -88,7 +92,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       }
     }.insert();
 
-    final AnalysisResponse response = new AnalysisApi(getClient()).analyseFiling(filingVersionId);
+    final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
     assertNull(response.getChiSquared());
     assertNull(response.getMeanAbsoluteDeviation());
   }
