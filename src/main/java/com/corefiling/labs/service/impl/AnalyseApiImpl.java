@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import com.corefiling.labs.analysis.DigitAnalyser;
 import com.corefiling.labs.analysis.FactRequester;
 import com.corefiling.labs.analysis.NumericFactValue;
-import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.AnalyseApi;
-import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
+import com.corefiling.labs.model.AnalysisResponse;
+import com.corefiling.labs.service.AnalyseApi;
 
 /**
  * Implementation of the analysis API.

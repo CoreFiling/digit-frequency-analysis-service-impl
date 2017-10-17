@@ -2,7 +2,7 @@ package com.corefiling.labs.analysis;
 
 import java.util.List;
 
-import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
+import com.corefiling.labs.model.AnalysisResponse;
 
 /** Analyses the distribution of the digits of facts. */
 public interface DigitAnalyser {
