@@ -1,0 +1,80 @@
+plugins {
+  id 'com.jayanslow.gradle.semver-ci' version '0.3.1'
+  id 'java'
+  id 'checkstyle'
+}
+
+sourceSets {
+  testSupport {
+    java {
+      compileClasspath += main.output
+      runtimeClasspath += main.output
+    }
+  }
+  test {
+    java {
+      compileClasspath += testSupport.output
+      runtimeClasspath += testSupport.output
+    }
+  }
+  testIntegration {
+    java {
+      compileClasspath += testSupport.output
+      runtimeClasspath += testSupport.output
+    }
+  }
+}
+
+
+checkstyle {
+  toolVersion = '6.5'
+  configFile = file('tools/checkstyle.xml')
+}
+
+repositories {
+  maven {
+    url "https://artifacts.int.corefiling.com/cfl-default"
+  }
+  mavenCentral()
+  ivy {
+    url "https://artifacts.int.corefiling.com/cfl-snapshots-ivy"
+    layout "pattern", {
+      artifact "[organisation]/[module]/[revision]/jars/[artifact].[ext]"
+      ivy "[organisation]/[module]/[revision]/ivys/ivy-[revision].xml"
+    }
+  }
+}
+
+group = property('group.maven')
+
+ext {
+  springBootVersion = '1.5.3.RELEASE'
+  keycloakVersion = '2.5.5.Final'
+}
+
+task wrapper(type: Wrapper) {
+  gradleVersion = '4.1'
+}
+
+dependencies {
+  def hamcrestVersion = '2.0.0.0'
+  def jacksonVersion = '2.8.8'
+  compile group: 'com.corefiling.platform', name: 'instance-service', version: '1.5.0'
+  compile group: 'com.google.guava', name: 'guava', version: '21.0'
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: jacksonVersion
+  compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonVersion
+  compile group: 'commons-io', name: 'commons-io', version: '2.5'
+
+  testSupportCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+  testSupportCompile group: 'org.hamcrest', name: 'java-hamcrest', version: hamcrestVersion
+  testSupportCompile group: 'junit', name: 'junit', version: '4.12'
+  testSupportCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.0'
+  testSupportCompile group: 'com.github.npathai', name: 'hamcrest-optional', version: '2.0.0'
+  testSupportCompile configurations.compile
+
+  testCompile configurations.testSupportCompile
+
+  testIntegrationCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.33483'
+  testIntegrationCompile configurations.testSupportCompile
+}

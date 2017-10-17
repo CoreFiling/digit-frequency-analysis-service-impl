@@ -1,0 +1,10 @@
+pluginManagement {
+  repositories {
+    maven {
+      url 'https://artifacts.int.corefiling.com/cfl-default'
+    }
+    gradlePluginPortal()
+  }
+}
+
+rootProject.name = 'digit-frequency-analysis-service-impl'
