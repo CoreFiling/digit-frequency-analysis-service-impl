@@ -52,7 +52,6 @@ repositories {
 
 group = property('group.maven')
 mainClassName = property('java.main')
-tasks.run.jvmArgs << '-Dspring.profiles.active=production'
 
 ext {
   springBootVersion = '1.5.3.RELEASE'
