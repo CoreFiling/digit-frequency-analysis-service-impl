@@ -66,6 +66,9 @@ task wrapper(type: Wrapper) {
 task testIntegration(type: Test) {
   testClassesDirs = sourceSets.testIntegration.output.classesDirs
   classpath = sourceSets.testIntegration.runtimeClasspath
+  systemProperties = [
+    'service.url': System.getProperty("service.url")
+  ]
 }
 
 dependencies {
@@ -83,11 +86,11 @@ dependencies {
   testSupportCompile group: 'junit', name: 'junit', version: '4.12'
   testSupportCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.0'
   testSupportCompile group: 'com.github.npathai', name: 'hamcrest-optional', version: '2.0.0'
+  testSupportCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.33483'
   testSupportCompile configurations.compile
 
   testCompile configurations.testSupportCompile
 
-  testIntegrationCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.33483'
   testIntegrationCompile configurations.testSupportCompile
 }
 

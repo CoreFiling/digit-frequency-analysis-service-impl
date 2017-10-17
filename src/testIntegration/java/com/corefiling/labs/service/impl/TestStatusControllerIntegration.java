@@ -16,12 +16,12 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
+import com.corefiling.labs.digitFrequencyAnalysisService.ApiException;
+import com.corefiling.labs.digitFrequencyAnalysisService.ApiResponse;
+import com.corefiling.labs.digitFrequencyAnalysisService.StatusApi;
+import com.corefiling.labs.digitFrequencyAnalysisService.model.StatusResponse;
+import com.corefiling.labs.digitFrequencyAnalysisService.model.StatusResponse.StatusEnum;
 import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.AbstractApiClientIntegrationTest;
-import com.corefiling.platform.instanceService.ApiException;
-import com.corefiling.platform.instanceService.ApiResponse;
-import com.corefiling.platform.instanceService.StatusApi;
-import com.corefiling.platform.instanceService.model.StatusResponse;
-import com.corefiling.platform.instanceService.model.StatusResponse.StatusEnum;
 
 /**
  * Integration tests for the status API.
