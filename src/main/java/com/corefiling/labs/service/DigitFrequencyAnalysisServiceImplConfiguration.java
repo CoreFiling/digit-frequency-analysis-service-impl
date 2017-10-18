@@ -33,7 +33,7 @@ public class DigitFrequencyAnalysisServiceImplConfiguration {
   @Bean
   @RequestScope
   public FactRequester factRequester(final HttpServletRequest request) {
-    final String accessToken = Optional.ofNullable(request.getHeader("Authorization")).map(s -> s.replaceFirst("Bearer ", "")).orElse(null);
+    final String accessToken = Optional.ofNullable(request.getHeader("Authorization")).map(s -> s.replaceFirst("Bearer\\s+", "")).orElse(null);
     return new FactRequesterImpl(_instanceServiceBasePath, accessToken);
   }
 
