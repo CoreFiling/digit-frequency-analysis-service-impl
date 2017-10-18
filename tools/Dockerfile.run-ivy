@@ -1,4 +1,0 @@
-FROM artifacts.int.corefiling.com:5000/nimbus-tools/run-ivy:0.4.1
-
-ARG class
-ENV MAIN_CLASS ${class}

@@ -1,6 +1,0 @@
-server:
-  contextPath: /v1
-spring:
-  zipkin:
-    service:
-      name: digit-frequency-analysis-service-impl

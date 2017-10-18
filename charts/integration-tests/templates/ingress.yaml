@@ -13,9 +13,3 @@ spec:
           - backend:
               serviceName: digit-frequency-analysis-service
               servicePort: 80
-    - host: key-{{ .Values.ingress.host }}
-      http:
-        paths:
-          - backend:
-              serviceName: keycloak
-              servicePort: 30777
