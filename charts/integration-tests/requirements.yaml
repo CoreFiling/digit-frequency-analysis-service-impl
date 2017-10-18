@@ -1,4 +1,4 @@
 dependencies:
   - name: digit-frequency-analysis-service
-    version: 0.1.0
+    version: 0.0.0-local
     repository: file://../digit-frequency-analysis-service
