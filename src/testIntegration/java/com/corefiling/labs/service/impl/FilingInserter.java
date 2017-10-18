@@ -15,6 +15,7 @@ import com.corefiling.platform.instanceService.model.Concept;
 import com.corefiling.platform.instanceService.model.Decimals;
 import com.corefiling.platform.instanceService.model.Entity;
 import com.corefiling.platform.instanceService.model.Fact;
+import com.corefiling.platform.instanceService.model.Fact.TypeEnum;
 import com.corefiling.platform.instanceService.model.ForeverPeriod;
 import com.corefiling.platform.instanceService.model.Measure;
 import com.corefiling.platform.instanceService.model.NumericFact;
@@ -65,6 +66,7 @@ public abstract class FilingInserter implements AutoCloseable {
     final List<Fact> facts = Lists.newArrayList();
     for (int i = 0; i < getNumberOfFacts(); ++i) {
       final NumericFact fact = new NumericFact();
+      fact.setType(TypeEnum.NUMERICFACT);
       fact.setId((long) i);
       fact.setEntity(new Entity().scheme("scheme").identifier("identifier"));
       fact.setPeriod(new ForeverPeriod().type(FOREVERPERIOD));
