@@ -8,7 +8,8 @@ import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
 import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
-import org.apache.oltu.oauth2.common.exception.OAuthSystemException; 
+import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
+import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -49,7 +50,9 @@ public class AbstractApiClientIntegrationTest {
               .resolve("realms/dev/protocol/openid-connect/token")
               .toString()
               )
-          .setClientId("postman")
+          .setGrantType(GrantType.CLIENT_CREDENTIALS)
+          .setClientId("labs-integration-tests")
+          .setClientSecret(System.getenv("LABS_INTEGRATION_TESTS_SECRET"))
           .buildBodyMessage();
       final OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
       final OAuthJSONAccessTokenResponse tokenResponse = oAuthClient.accessToken(request);
