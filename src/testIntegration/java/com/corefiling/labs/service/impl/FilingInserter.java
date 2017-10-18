@@ -37,8 +37,6 @@ public abstract class FilingInserter implements AutoCloseable {
 
   public UUID insert() throws Exception {
     final UUID filingVersionId = UUID.randomUUID();
-    new FilingVersionsApi(_client).createFilingVersion(filingVersionId);
-    new FactsApi(_client).createFacts(filingVersionId, facts());
     final String resourceID = _protectedResources.save(new ProtectedResource() {
       @Override
       public String getURI() throws Exception {
@@ -58,6 +56,8 @@ public abstract class FilingInserter implements AutoCloseable {
       }
     });
     _createdResources.add(resourceID);
+    new FilingVersionsApi(_client).createFilingVersion(filingVersionId);
+    new FactsApi(_client).createFacts(filingVersionId, facts());
     return filingVersionId;
   }
 
@@ -77,6 +77,8 @@ public abstract class FilingInserter implements AutoCloseable {
       final String value = getValue(i);
       fact.setReportedValue(value);
       fact.setNumericValue(Double.valueOf(value));
+
+      facts.add(fact);
     }
     return facts;
   }
