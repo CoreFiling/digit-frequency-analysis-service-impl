@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
+import com.corefiling.labs.analysis.impl.FailedToGetFactsException;
 import com.corefiling.labs.exception.NotFoundException;
 import com.corefiling.labs.model.ErrorResponse;
+import com.corefiling.platform.instanceService.ApiException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 /**
@@ -79,6 +81,12 @@ public class ErrorHandlingAdvice {
     final String detail = _messages.getMessage(fieldError, Locale.getDefault());
     final String message = String.format("Invalid value for parameter '%s': %s.", fieldError.getField(), detail);
     return makeErrorResponse(request, ex, HttpStatus.BAD_REQUEST, message);
+  }
+
+  @ExceptionHandler(FailedToGetFactsException.class)
+  public ResponseEntity<ErrorResponse> handleFailedToGetFactsException(final HttpServletRequest request, final FailedToGetFactsException e) {
+    final int code = Optional.ofNullable(e.getApiException()).map(ApiException::getCode).orElse(500);
+    return makeErrorResponse(request, e, HttpStatus.valueOf(code));
   }
 
   @ExceptionHandler(NotFoundException.class)

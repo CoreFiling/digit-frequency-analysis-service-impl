@@ -1,5 +1,7 @@
 package com.corefiling.labs.service;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +33,7 @@ public class DigitFrequencyAnalysisServiceImplConfiguration {
   @Bean
   @RequestScope
   public FactRequester factRequester(final HttpServletRequest request) {
-    final String accessToken = request.getHeader("Authorization").replaceFirst("Bearer ", "");
+    final String accessToken = Optional.ofNullable(request.getHeader("Authorization")).map(s -> s.replaceFirst("Bearer ", "")).orElse(null);
     return new FactRequesterImpl(_instanceServiceBasePath, accessToken);
   }
 
