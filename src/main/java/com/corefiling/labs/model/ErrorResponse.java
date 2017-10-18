@@ -3,30 +3,17 @@ package com.corefiling.labs.model;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 /**
  * ErrorResponse.
  */
 public class ErrorResponse {
-  @JsonIgnore
   private Optional<String> _error = Optional.empty();
-
-  @JsonIgnore
   private Optional<String> _exception = Optional.empty();
-
-  @JsonIgnore
   private Optional<String> _message = Optional.empty();
-
-  @JsonIgnore
   private Optional<String> _path = Optional.empty();
-
-  @JsonIgnore
   private Optional<Integer> _status = Optional.empty();
-
-  @JsonIgnore
   private Optional<Long> _timestamp = Optional.empty();
 
   public ErrorResponse error(final Optional<String> error) {
@@ -38,7 +25,6 @@ public class ErrorResponse {
    * Error code.
    * @return error
    */
-  @JsonProperty("error")
   public Optional<String> getError() {
     return _error;
   }
@@ -56,7 +42,6 @@ public class ErrorResponse {
    * Exception class.
    * @return exception
    */
-  @JsonProperty("exception")
   public Optional<String> getException() {
     return _exception;
   }
@@ -74,7 +59,6 @@ public class ErrorResponse {
    * Error message.
    * @return message
    */
-  @JsonProperty("message")
   public Optional<String> getMessage() {
     return _message;
   }
@@ -92,7 +76,6 @@ public class ErrorResponse {
    * Request path.
    * @return path
    */
-  @JsonProperty("path")
   public Optional<String> getPath() {
     return _path;
   }
@@ -110,7 +93,6 @@ public class ErrorResponse {
    * Status code.
    * @return status
    */
-  @JsonProperty("status")
   public Optional<Integer> getStatus() {
     return _status;
   }
@@ -128,7 +110,6 @@ public class ErrorResponse {
    * Timestamp (milliseconds).
    * @return timestamp
    */
-  @JsonProperty("timestamp")
   public Optional<Long> getTimestamp() {
     return _timestamp;
   }

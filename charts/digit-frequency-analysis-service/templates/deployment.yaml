@@ -23,8 +23,6 @@ spec:
           env:
             - name: com_corefiling_labs_instanceServer
               value: {{ .Values.instanceServerPath }}
-            - name: spring_profiles_active
-              value: production
           readinessProbe:
             tcpSocket:
               port: http

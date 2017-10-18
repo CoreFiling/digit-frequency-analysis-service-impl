@@ -2,18 +2,13 @@ package com.corefiling.labs.model;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 
 /**
  * AnalysisResponse.
  */
 public class AnalysisResponse {
-  @JsonIgnore
   private Double _chiSquared = null;
-
-  @JsonIgnore
   private Double _meanAbsoluteDeviation = null;
 
   public AnalysisResponse chiSquared(final Double chiSquared) {
@@ -25,7 +20,6 @@ public class AnalysisResponse {
    * The chi^2 value.
    * @return chiSquared
   **/
-  @JsonProperty("chiSquared")
   public Double getChiSquared() {
     return _chiSquared;
   }
@@ -43,7 +37,6 @@ public class AnalysisResponse {
    * The Mean Absolute Deviation (MAD) value.
    * @return meanAbsoluteDeviation
   **/
-  @JsonProperty("meanAbsoluteDeviation")
   public Double getMeanAbsoluteDeviation() {
     return _meanAbsoluteDeviation;
   }
