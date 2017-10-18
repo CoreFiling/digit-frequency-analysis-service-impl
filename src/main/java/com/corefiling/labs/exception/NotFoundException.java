@@ -1,7 +1,7 @@
 package com.corefiling.labs.exception;
 
 /**
- * Thrown when database lookup fails.
+ * Thrown when a filing is not found.
  */
 public class NotFoundException extends RuntimeException {
 

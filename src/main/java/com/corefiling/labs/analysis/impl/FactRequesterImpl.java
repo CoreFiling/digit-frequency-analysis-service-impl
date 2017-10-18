@@ -3,6 +3,7 @@ package com.corefiling.labs.analysis.impl;
 import static com.corefiling.platform.instanceService.model.Fact.TypeEnum.NUMERICFACT;
 import static java.util.stream.Collectors.toList;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class FactRequesterImpl implements FactRequester {
 
   public FactRequesterImpl(final String basePath, final String accessToken) {
     final ApiClient apiClient = new ApiClient();
-    apiClient.setBasePath(basePath).setAccessToken(accessToken);
+    apiClient.setBasePath(URI.create(basePath).resolve("v1/").toString()).setAccessToken(accessToken);
     _api = new FactsApi(apiClient);
   }
 

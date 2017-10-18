@@ -82,7 +82,7 @@ deploy:service:
       - service.url
   script:
     - BASE_DOMAIN="$TILLER_NAMESPACE.kube.int.corefiling.com"
-    - SERVICE_URL="https://$BASE_DOMAIN"
+    - SERVICE_URL="https://$BASE_DOMAIN/"
     - echo "$SERVICE_URL" > service.url
     - echo "Deploying to $SERVICE_URL"
     - cd charts
