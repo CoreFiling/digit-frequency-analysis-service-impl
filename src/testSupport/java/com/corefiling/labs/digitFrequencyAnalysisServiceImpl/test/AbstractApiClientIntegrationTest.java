@@ -4,6 +4,7 @@ import static java.util.Collections.singletonMap;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -39,6 +40,7 @@ public class AbstractApiClientIntegrationTest {
     final com.corefiling.labs.digitFrequencyAnalysisService.ApiClient client = new com.corefiling.labs.digitFrequencyAnalysisService.ApiClient();
     client.setBasePath(URI.create(HOST).resolve("v1/").toString());
     client.setAccessToken(getToken());
+    client.getHttpClient().setReadTimeout(10, TimeUnit.SECONDS);
     return client;
   }
 
