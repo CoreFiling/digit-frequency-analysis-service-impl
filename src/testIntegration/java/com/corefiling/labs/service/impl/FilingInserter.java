@@ -5,6 +5,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.corefiling.platform.instanceService.ApiClient;
@@ -18,21 +19,42 @@ import com.corefiling.platform.instanceService.model.ForeverPeriod;
 import com.corefiling.platform.instanceService.model.Measure;
 import com.corefiling.platform.instanceService.model.NumericFact;
 import com.corefiling.platform.instanceService.model.Unit;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 /** Inserts a filing into the instance-service. */
 public abstract class FilingInserter {
 
   private final ApiClient _client;
+  private final KeycloakProtectedResources _protectedResources;
 
-  public FilingInserter(final ApiClient client) {
+  public FilingInserter(final ApiClient client, final KeycloakProtectedResources protectedResources) {
     _client = client;
+    _protectedResources = protectedResources;
   }
 
   public UUID insert() throws Exception {
     final UUID filingVersionId = UUID.randomUUID();
     new FilingVersionsApi(_client).createFilingVersion(filingVersionId);
     new FactsApi(_client).createFacts(filingVersionId, facts());
+    _protectedResources.save(new ProtectedResource() {
+      @Override
+      public String getURI() throws Exception {
+        return "/data-set/test-data-set/filing/test-filing/filing-version/" + filingVersionId;
+      }
+      @Override
+      public String getType() {
+        return "urn:platform.corefiling.com:filing-version";
+      }
+      @Override
+      public Set<String> getScopes() {
+        return ImmutableSet.of("urn:platform.corefiling.com:filing-version:read");
+      }
+      @Override
+      public String getName() {
+        return getType() + ": " + filingVersionId.toString();
+      }
+    });
     return filingVersionId;
   }
 

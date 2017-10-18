@@ -91,6 +91,8 @@ dependencies {
   testSupportCompile configurations.compile
 
   testCompile configurations.testSupportCompile
+  
+  testSupportCompile group: 'org.keycloak', name: 'keycloak-authz-client', version: '2.5.5.Final'
 
   testIntegrationCompile configurations.testSupportCompile
 }

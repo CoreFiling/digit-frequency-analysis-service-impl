@@ -1,8 +1,12 @@
 package com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test;
 
+import static java.util.Collections.singletonMap;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.oltu.oauth2.client.OAuthClient;
 import org.apache.oltu.oauth2.client.URLConnectionClient;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest;
@@ -12,6 +16,8 @@ import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
+import org.keycloak.authorization.client.AuthzClient;
+import org.keycloak.authorization.client.Configuration;
 
 /**
  * Base class for tests against the Digit Frequency Analysis Service API client.
@@ -20,7 +26,7 @@ public class AbstractApiClientIntegrationTest {
 
   private static final String HOST = System.getProperty("service.url", "http://localhost:8601/");
   private static final String INSTANCE_SERVICE_HOST = System.getProperty("com.corefiling.labs.instanceServer", "https://platform-api.cfl.io/instance-service/");
-  private static final String KEYCLOAK_HOST = System.getProperty("keycloak.url", "https://login.corefiling.com/auth/");
+  private static final String KEYCLOAK_HOST = System.getProperty("keycloak.url", "https://login.corefiling.com/auth");
 
   private final ExpectedException _thrown = ExpectedException.none();
 
@@ -43,17 +49,24 @@ public class AbstractApiClientIntegrationTest {
     return client;
   }
 
+  protected AuthzClient getAuthz() {
+    final HttpClient client = HttpClientBuilder.create().build();
+    return AuthzClient.create(new Configuration(KEYCLOAK_HOST, "dev", "document-service", singletonMap("secret", System.getenv("DOCUMENT_SERVICE_SECRET")), client));
+  }
+
   private String getToken() throws AssertionError {
     try {
       final OAuthClientRequest request =
           OAuthClientRequest.tokenLocation(
-              new URI(KEYCLOAK_HOST)
+              new URI(KEYCLOAK_HOST + "/")
               .resolve("realms/dev/protocol/openid-connect/token")
               .toString()
               )
-          .setGrantType(GrantType.CLIENT_CREDENTIALS)
+          .setGrantType(GrantType.PASSWORD)
           .setClientId("labs-integration-tests")
           .setClientSecret(System.getenv("LABS_INTEGRATION_TESTS_SECRET"))
+          .setUsername("labs-integration-test-user")
+          .setPassword(System.getenv("LABS_INTEGRATION_TESTS_PASSWORD"))
           .buildBodyMessage();
       final OAuthClient oAuthClient = new OAuthClient(new URLConnectionClient());
       final OAuthJSONAccessTokenResponse tokenResponse = oAuthClient.accessToken(request);

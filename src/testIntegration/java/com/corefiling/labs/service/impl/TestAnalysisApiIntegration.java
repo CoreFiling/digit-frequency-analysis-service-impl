@@ -21,11 +21,12 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
 
   private final ApiClient _instanceServiceClient = createAuthenticatedInstanceServiceClient();
   private final AnalysisApi _analysisApi = new AnalysisApi(createAuthenticatedClient());
+  private final KeycloakProtectedResources _protectedResources = new KeycloakProtectedResources(getAuthz());
 
   @Test
   public void testRandomlyGeneratedInput() throws Exception {
     final Random random = new Random(123456789L);
-    final UUID filingVersionId = new FilingInserter(_instanceServiceClient) {
+    final UUID filingVersionId = new FilingInserter(_instanceServiceClient, _protectedResources) {
       @Override
       protected String getValue(final int i) {
         return String.valueOf(random.nextDouble() * 10000);
@@ -39,7 +40,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
 
   @Test
   public void testDataThatFollowsBenfordsLaw() throws Exception {
-    final UUID filingVersionId = new FilingInserter(_instanceServiceClient) {
+    final UUID filingVersionId = new FilingInserter(_instanceServiceClient, _protectedResources) {
       @Override
       protected String getValue(final int i) {
         return String.valueOf(getValueAsInteger((int) (i * (100.0 / getNumberOfFacts()))));
@@ -81,7 +82,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
 
   @Test
   public void testNotEnoughData() throws Exception {
-    final UUID filingVersionId = new FilingInserter(_instanceServiceClient) {
+    final UUID filingVersionId = new FilingInserter(_instanceServiceClient, _protectedResources) {
       @Override
       protected int getNumberOfFacts() {
         return 5;
