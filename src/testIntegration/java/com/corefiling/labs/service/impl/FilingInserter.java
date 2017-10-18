@@ -21,12 +21,14 @@ import com.corefiling.platform.instanceService.model.NumericFact;
 import com.corefiling.platform.instanceService.model.Unit;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /** Inserts a filing into the instance-service. */
-public abstract class FilingInserter {
+public abstract class FilingInserter implements AutoCloseable {
 
   private final ApiClient _client;
   private final KeycloakProtectedResources _protectedResources;
+  private final Set<String> _createdResources = Sets.newLinkedHashSet();
 
   public FilingInserter(final ApiClient client, final KeycloakProtectedResources protectedResources) {
     _client = client;
@@ -37,7 +39,7 @@ public abstract class FilingInserter {
     final UUID filingVersionId = UUID.randomUUID();
     new FilingVersionsApi(_client).createFilingVersion(filingVersionId);
     new FactsApi(_client).createFacts(filingVersionId, facts());
-    _protectedResources.save(new ProtectedResource() {
+    final String resourceID = _protectedResources.save(new ProtectedResource() {
       @Override
       public String getURI() throws Exception {
         return "/data-set/test-data-set/filing/test-filing/filing-version/" + filingVersionId;
@@ -55,6 +57,7 @@ public abstract class FilingInserter {
         return getType() + ": " + filingVersionId.toString();
       }
     });
+    _createdResources.add(resourceID);
     return filingVersionId;
   }
 
@@ -83,5 +86,17 @@ public abstract class FilingInserter {
   }
 
   protected abstract String getValue(int i);
+
+  @Override
+  public void close() {
+    for (final String resourceID : _createdResources) {
+      try {
+        _protectedResources.delete(resourceID);
+      }
+      catch (final Exception e) {
+        // Ignore - this fails but hopefully won't in the future.
+      }
+    }
+  }
 
 }

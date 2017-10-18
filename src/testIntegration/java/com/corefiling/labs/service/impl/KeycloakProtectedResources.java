@@ -5,6 +5,7 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import java.util.Set;
 
 import org.keycloak.authorization.client.AuthzClient;
+import org.keycloak.authorization.client.representation.RegistrationResponse;
 import org.keycloak.authorization.client.representation.ResourceRepresentation;
 import org.keycloak.authorization.client.representation.ScopeRepresentation;
 
@@ -25,9 +26,17 @@ public class KeycloakProtectedResources {
   /**
    * Save the resource in Keycloak.
    */
-  public void save(final ProtectedResource resource) throws Exception {
+  public String save(final ProtectedResource resource) throws Exception {
     final ResourceRepresentation representation = makeResourceRepresentation(resource);
-    _client.protection().resource().create(representation);
+    final RegistrationResponse response = _client.protection().resource().create(representation);
+    return response.getId();
+  }
+
+  /**
+   * Delete the resource in Keycloak.
+   */
+  public void delete(final String id) throws Exception {
+    _client.protection().resource().delete(id);
   }
 
   private ResourceRepresentation makeResourceRepresentation(final ProtectedResource resource) throws Exception {
