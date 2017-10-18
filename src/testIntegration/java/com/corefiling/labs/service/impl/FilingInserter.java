@@ -1,6 +1,5 @@
 package com.corefiling.labs.service.impl;
 
-import static com.corefiling.platform.instanceService.model.Period.TypeEnum.FOREVERPERIOD;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -69,7 +68,7 @@ public abstract class FilingInserter implements AutoCloseable {
       fact.setType(TypeEnum.NUMERICFACT);
       fact.setId((long) i);
       fact.setEntity(new Entity().scheme("scheme").identifier("identifier"));
-      fact.setPeriod(new ForeverPeriod().type(FOREVERPERIOD));
+      fact.setPeriod(new ForeverPeriod());
       fact.setConcept(new Concept().name("foo:Bar"));
       fact.setDimensionValues(emptyList());
       fact.setSourceInformations(emptyList());
