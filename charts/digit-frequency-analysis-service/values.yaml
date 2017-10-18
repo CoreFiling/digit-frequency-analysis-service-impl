@@ -1,8 +1,3 @@
-imageRegistry: artifacts.int.corefiling.com:5000
 imageRepository: labs
 imageName: digit-frequency-analysis-service-impl
 imageTag: dev
-# Set pullPolicy to handle the default imageTag "dev" safely.
-pullPolicy: Always
-
-instanceServerPath: https://platform-api.cfl.io/instance-service/

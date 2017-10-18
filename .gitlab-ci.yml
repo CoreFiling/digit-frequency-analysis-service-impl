@@ -13,9 +13,6 @@ stages:
 .template_prepare_kube: &prepare_kube
   tags: [docker]
   image: artifacts.int.corefiling.com:5000/pdds/kube-deploy:0.8.1
-  dependencies:
-    - build version
-    - publish
   variables:
     TILLER_NAMESPACE: $CI_ENVIRONMENT_SLUG
     HELM_CHART: integration-tests
@@ -71,11 +68,28 @@ publish:
     <<: *gradle_variables
     DOCKER_HOST: tcp://docker:2375
 
+publish chart:
+  <<: *prepare_kube
+  stage: publish
+  dependencies:
+    - build version
+  before_script: []
+  script:
+    - export BUILD_VERSION=$(cat build.version)
+    - cd charts/
+    - sed -ri -e s/0.0.0-local/${BUILD_VERSION}/ digit-frequency-analysis-service/*.yaml integration-tests/*.yaml
+    - 'sed -ri -e "s/imageTag: dev/imageTag: ${BUILD_VERSION}/" digit-frequency-analysis-service/values.yaml'
+    - /kube/helmPush digit-frequency-analysis-service
+
 deploy:service:
   <<: *prepare_kube
   stage: deploy
   environment: &environment
     name: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
+  dependencies:
+    - build version
+    - publish
+    - publish chart
   artifacts:
     expire_in: 1 week
     paths:
