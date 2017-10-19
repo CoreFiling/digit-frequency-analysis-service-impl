@@ -1,5 +1,6 @@
 package com.corefiling.labs.digit.service.impl;
 
+import static com.corefiling.labs.digit.service.impl.FilingInserter.FACT_COUNT;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
@@ -30,13 +31,12 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
     try (FilingInserter inserter = new FilingInserter(_instanceServiceClient, _protectedResources) {
       @Override
       protected String getValue(final int i) {
-        return String.valueOf(random.nextDouble() * 10000);
+        return String.valueOf(random.nextDouble() * 10000 + 10);
       }
     }) {
       final UUID filingVersionId = inserter.insert();
       final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
-      // Some of these will be less than 10 and excluded.
-      assertThat(response.getAnalysedFactCount().intValue(), greaterThan(inserter.getNumberOfFacts() / 2));
+      assertThat(response.getAnalysedFactCount().intValue(), equalTo(FACT_COUNT));
       assertThat(response.getChiSquared(), greaterThan(15.5));
       assertThat(response.getMeanAbsoluteDeviation(), greaterThan(0.05));
     }
@@ -47,7 +47,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
     try (final FilingInserter inserter = new FilingInserter(_instanceServiceClient, _protectedResources) {
       @Override
       protected String getValue(final int i) {
-        return String.valueOf(getValueAsInteger((int) (i * (100.0 / getNumberOfFacts()))));
+        return String.valueOf(getValueAsInteger((int) (i * (100.0 / FACT_COUNT))));
       }
       private int getValueAsInteger(final int i) {
         Preconditions.checkArgument(i <= 100);
@@ -80,7 +80,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
     }) {
       final UUID filingVersionId = inserter.insert();
       final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
-      assertThat(response.getAnalysedFactCount().intValue(), equalTo(inserter.getNumberOfFacts()));
+      assertThat(response.getAnalysedFactCount().intValue(), equalTo(FACT_COUNT));
       assertThat(response.getChiSquared(), lessThan(15.5));
       assertThat(response.getMeanAbsoluteDeviation(), lessThan(0.05));
     }
@@ -89,10 +89,6 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
   @Test
   public void testNoRelevantData() throws Exception {
     try (FilingInserter inserter = new FilingInserter(_instanceServiceClient, _protectedResources) {
-      @Override
-      public int getNumberOfFacts() {
-        return 5;
-      };
       @Override
       protected String getValue(final int i) {
         return "1";
