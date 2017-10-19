@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ if .Values.registry }}{{ .Values.registry }}/{{ end }}{{ if .Values.imageRepository }}{{ .Values.imageRepository }}/{{ end }}{{ .Values.imageName }}:{{ .Values.imageTag }}"
-          imagePullPolicy: {{ .Values.pullPolicy }}
+          image: {{ .Values.global.registry }}/{{ .Values.image }}:{{ .Values.imageTag }}
+          imagePullPolicy: {{ default "IfNotPresent" .Values.pullPolicy }}
           ports:
             - name: http
               containerPort: 80
