@@ -1,4 +1,4 @@
-package com.corefiling.labs.service.impl;
+package com.corefiling.labs.digit.service.impl;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
@@ -11,9 +11,9 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import com.corefiling.labs.digit.test.AbstractApiClientIntegrationTest;
 import com.corefiling.labs.digitFrequencyAnalysisService.AnalysisApi;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponse;
-import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.AbstractApiClientIntegrationTest;
 import com.corefiling.platform.instanceService.ApiClient;
 import com.google.common.base.Preconditions;
 

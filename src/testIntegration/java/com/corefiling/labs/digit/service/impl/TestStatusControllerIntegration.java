@@ -1,7 +1,7 @@
-package com.corefiling.labs.service.impl;
+package com.corefiling.labs.digit.service.impl;
 
-import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.API_VERSION_PREFIX;
-import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.SERVICE_NAME;
+import static com.corefiling.labs.digit.test.ServiceConstants.API_VERSION_PREFIX;
+import static com.corefiling.labs.digit.test.ServiceConstants.SERVICE_NAME;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.hamcrest.Matchers.nullValue;
@@ -16,12 +16,12 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 
+import com.corefiling.labs.digit.test.AbstractApiClientIntegrationTest;
 import com.corefiling.labs.digitFrequencyAnalysisService.ApiException;
 import com.corefiling.labs.digitFrequencyAnalysisService.ApiResponse;
 import com.corefiling.labs.digitFrequencyAnalysisService.StatusApi;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.StatusResponse;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.StatusResponse.StatusEnum;
-import com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.AbstractApiClientIntegrationTest;
 
 /**
  * Integration tests for the status API.

@@ -1,4 +1,4 @@
-package com.corefiling.labs.service.impl;
+package com.corefiling.labs.digit.service.impl;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;

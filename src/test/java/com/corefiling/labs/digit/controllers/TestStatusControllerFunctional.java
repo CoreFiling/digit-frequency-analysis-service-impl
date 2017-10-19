@@ -1,7 +1,7 @@
-package com.corefiling.labs.service.controllers;
+package com.corefiling.labs.digit.controllers;
 
-import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.API_VERSION_PREFIX;
-import static com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test.ServiceConstants.SERVICE_NAME;
+import static com.corefiling.labs.digit.test.ServiceConstants.API_VERSION_PREFIX;
+import static com.corefiling.labs.digit.test.ServiceConstants.SERVICE_NAME;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
