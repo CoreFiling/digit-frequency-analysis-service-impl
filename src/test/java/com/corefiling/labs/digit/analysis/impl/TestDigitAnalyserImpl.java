@@ -64,7 +64,7 @@ public class TestDigitAnalyserImpl {
   @Test @Parameters(method = "paramsEmptyResponse")
   public void testEmptyResponse(final List<NumericFactValue> facts) {
     final AnalysisResponse response = new DigitAnalyserImpl().analyse(facts);
-    assertEquals(new AnalysisResponse(), response);
+    assertEquals(0, response.getFactsAnalysed().intValue());
     assertNull(response.getChiSquared());
     assertNull(response.getMeanAbsoluteDeviation());
   }
@@ -75,7 +75,6 @@ public class TestDigitAnalyserImpl {
         emptyList(), // No facts
         nCopies(200, new SimpleNumericFactValue(false, "123")), // Not monetary
         nCopies(200, new SimpleNumericFactValue(true, null)), // No value
-        nCopies(100, new SimpleNumericFactValue(true, "123")), // Not enough data
         nCopies(200, new SimpleNumericFactValue(true, "-100")), // Negative facts are discarded
         nCopies(200, new SimpleNumericFactValue(true, "5")) // Small values are discarded
         )
@@ -86,6 +85,7 @@ public class TestDigitAnalyserImpl {
   @Test
   public void testRepeatedMonetaryValue() {
     final AnalysisResponse response = new DigitAnalyserImpl().analyse(nCopies(200, new SimpleNumericFactValue(true, "123")));
+    assertEquals(200, response.getFactsAnalysed().intValue());
     assertEquals(464.4, response.getChiSquared(), 0.05);
     assertEquals(0.155, response.getMeanAbsoluteDeviation(), 0.0005);
   }
@@ -103,19 +103,20 @@ public class TestDigitAnalyserImpl {
     final List<NumericFactValue> nineDigit = nCopies(5, new SimpleNumericFactValue(true, "900"));
 
     final List<NumericFactValue> values = ImmutableList.<NumericFactValue>builder()
-        .addAll(firstDigit).addAll(firstDigit)
-        .addAll(secondDigit).addAll(secondDigit)
-        .addAll(thirdDigit).addAll(thirdDigit)
-        .addAll(fourDigit).addAll(fourDigit)
-        .addAll(fiveDigit).addAll(fiveDigit)
-        .addAll(sixDigit).addAll(sixDigit)
-        .addAll(sevenDigit).addAll(sevenDigit)
-        .addAll(eightDigit).addAll(eightDigit)
-        .addAll(nineDigit).addAll(nineDigit)
+        .addAll(firstDigit)
+        .addAll(secondDigit)
+        .addAll(thirdDigit)
+        .addAll(fourDigit)
+        .addAll(fiveDigit)
+        .addAll(sixDigit)
+        .addAll(sevenDigit)
+        .addAll(eightDigit)
+        .addAll(nineDigit)
         .build();
 
     final AnalysisResponse response = new DigitAnalyserImpl().analyse(values);
-    assertEquals(0.182, response.getChiSquared(), 0.0005);
+    assertEquals(101, response.getFactsAnalysed().intValue());
+    assertEquals(0.091, response.getChiSquared(), 0.0005);
     assertEquals(0.00262, response.getMeanAbsoluteDeviation(), 0.000005);
   }
 
