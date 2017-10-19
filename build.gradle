@@ -86,7 +86,7 @@ dependencies {
   testSupportCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.0'
   testSupportCompile group: 'com.github.npathai', name: 'hamcrest-optional', version: '2.0.0'
   testSupportCompile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.2'
-  testSupportCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.33889'
+  testSupportCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.33916'
   testSupportCompile group: 'org.keycloak', name: 'keycloak-authz-client', version: '2.5.5.Final'
   testSupportCompile configurations.compile
 

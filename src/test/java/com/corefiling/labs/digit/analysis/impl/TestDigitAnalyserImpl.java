@@ -64,7 +64,7 @@ public class TestDigitAnalyserImpl {
   @Test @Parameters(method = "paramsEmptyResponse")
   public void testEmptyResponse(final List<NumericFactValue> facts) {
     final AnalysisResponse response = new DigitAnalyserImpl().analyse(facts);
-    assertEquals(0, response.getFactsAnalysed().intValue());
+    assertEquals(0, response.getAnalysedFactCount().intValue());
     assertNull(response.getChiSquared());
     assertNull(response.getMeanAbsoluteDeviation());
   }
@@ -85,7 +85,7 @@ public class TestDigitAnalyserImpl {
   @Test
   public void testRepeatedMonetaryValue() {
     final AnalysisResponse response = new DigitAnalyserImpl().analyse(nCopies(200, new SimpleNumericFactValue(true, "123")));
-    assertEquals(200, response.getFactsAnalysed().intValue());
+    assertEquals(200, response.getAnalysedFactCount().intValue());
     assertEquals(464.4, response.getChiSquared(), 0.05);
     assertEquals(0.155, response.getMeanAbsoluteDeviation(), 0.0005);
   }
@@ -115,7 +115,7 @@ public class TestDigitAnalyserImpl {
         .build();
 
     final AnalysisResponse response = new DigitAnalyserImpl().analyse(values);
-    assertEquals(101, response.getFactsAnalysed().intValue());
+    assertEquals(101, response.getAnalysedFactCount().intValue());
     assertEquals(0.091, response.getChiSquared(), 0.0005);
     assertEquals(0.00262, response.getMeanAbsoluteDeviation(), 0.000005);
   }

@@ -17,7 +17,7 @@ import com.google.common.annotations.VisibleForTesting;
 /** Analyses the digits in fact values. */
 public class DigitAnalyserImpl implements DigitAnalyser {
 
-  private static final AnalysisResponse EMPTY_RESPONSE = new AnalysisResponse().factsAnalysed(0);
+  private static final AnalysisResponse EMPTY_RESPONSE = new AnalysisResponse().analysedFactCount(0);
 
   private static final int NUMBER_OF_DIGITS = 9;
 
@@ -62,7 +62,7 @@ public class DigitAnalyserImpl implements DigitAnalyser {
 
   private AnalysisResponse createResponse(final int factsAnalysed, final double chiSquared, final double meanAbsoluteDeviation) {
     final AnalysisResponse response = new AnalysisResponse();
-    response.setFactsAnalysed(factsAnalysed);
+    response.setAnalysedFactCount(factsAnalysed);
     response.setChiSquared(chiSquared);
     response.setMeanAbsoluteDeviation(meanAbsoluteDeviation);
     return response;
