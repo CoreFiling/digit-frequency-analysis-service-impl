@@ -1,4 +1,4 @@
-package com.corefiling.labs.digitFrequencyAnalysisServiceImpl.test;
+package com.corefiling.labs.digit.test;
 
 import static java.util.Collections.singletonMap;
 

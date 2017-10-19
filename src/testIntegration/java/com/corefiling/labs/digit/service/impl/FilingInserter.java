@@ -1,4 +1,4 @@
-package com.corefiling.labs.service.impl;
+package com.corefiling.labs.digit.service.impl;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -25,6 +25,8 @@ import com.google.common.collect.Sets;
 
 /** Inserts a filing into the instance-service. */
 public abstract class FilingInserter implements AutoCloseable {
+
+  public static final int FACT_COUNT = 200;
 
   private final ApiClient _client;
   private final KeycloakProtectedResources _protectedResources;
@@ -63,7 +65,7 @@ public abstract class FilingInserter implements AutoCloseable {
 
   private List<Fact> facts() {
     final List<Fact> facts = Lists.newArrayList();
-    for (int i = 0; i < getNumberOfFacts(); ++i) {
+    for (int i = 0; i < FACT_COUNT; ++i) {
       final NumericFact fact = new NumericFact();
       fact.setType(TypeEnum.NUMERICFACT);
       fact.setId((long) i);
@@ -82,10 +84,6 @@ public abstract class FilingInserter implements AutoCloseable {
       facts.add(fact);
     }
     return facts;
-  }
-
-  protected int getNumberOfFacts() {
-    return 200;
   }
 
   protected abstract String getValue(int i);

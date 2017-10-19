@@ -10,11 +10,29 @@ import com.google.common.base.Preconditions;
 public class AnalysisResponse {
   private Double _chiSquared = null;
   private Double _meanAbsoluteDeviation = null;
+  private Integer _analysedFactCount = null;
 
   public AnalysisResponse chiSquared(final Double chiSquared) {
     setChiSquared(chiSquared);
     return this;
   }
+
+  /**
+  * The number of facts analysed.
+  * @return factsAnalysed
+ **/
+ public Integer getAnalysedFactCount() {
+   return _analysedFactCount;
+ }
+
+ public void setAnalysedFactCount(final Integer analysedFactCount) {
+   this._analysedFactCount = Preconditions.checkNotNull(analysedFactCount);
+ }
+
+ public AnalysisResponse analysedFactCount(final Integer analysedFactCount) {
+   setAnalysedFactCount(analysedFactCount);
+   return this;
+ }
 
    /**
    * The chi^2 value.
@@ -55,12 +73,13 @@ public class AnalysisResponse {
     }
     final AnalysisResponse analysisResponse = (AnalysisResponse) o;
     return Objects.equals(this._chiSquared, analysisResponse._chiSquared)
+        && Objects.equals(this._analysedFactCount, analysisResponse._analysedFactCount)
         && Objects.equals(this._meanAbsoluteDeviation, analysisResponse._meanAbsoluteDeviation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_chiSquared, _meanAbsoluteDeviation);
+    return Objects.hash(_chiSquared, _analysedFactCount, _meanAbsoluteDeviation);
   }
 
   @Override
@@ -68,6 +87,7 @@ public class AnalysisResponse {
     final StringBuilder sb = new StringBuilder();
     sb.append("class AnalysisResponse {\n");
     sb.append("    chiSquared: ").append(toIndentedString(_chiSquared)).append("\n");
+    sb.append("    factsAnalysed: ").append(toIndentedString(_analysedFactCount)).append("\n");
     sb.append("    meanAbsoluteDeviation: ").append(toIndentedString(_meanAbsoluteDeviation)).append("\n");
     sb.append("}");
     return sb.toString();

@@ -17,7 +17,7 @@ import com.google.common.annotations.VisibleForTesting;
 /** Analyses the digits in fact values. */
 public class DigitAnalyserImpl implements DigitAnalyser {
 
-  private static final AnalysisResponse EMPTY_RESPONSE = new AnalysisResponse();
+  private static final AnalysisResponse NO_FACTS_RESPONSE = new AnalysisResponse().analysedFactCount(0);
 
   private static final int NUMBER_OF_DIGITS = 9;
 
@@ -29,8 +29,8 @@ public class DigitAnalyserImpl implements DigitAnalyser {
         .filter(value -> Double.parseDouble(value) > 10) // Small & negative values may skew the results.
         .collect(toList());
 
-    if (rawValues.size() < 150) {
-      return EMPTY_RESPONSE;
+    if (rawValues.isEmpty()) {
+      return NO_FACTS_RESPONSE;
     }
 
     final Map<Integer, Long> digitToCount = rawValues.stream().collect(groupingBy(DigitAnalyserImpl::toFirstDigit, counting()));
@@ -50,7 +50,7 @@ public class DigitAnalyserImpl implements DigitAnalyser {
       sumAbsoluteDeviation += absProbabilityDifference;
     }
 
-    return createResponse(chiSquared, sumAbsoluteDeviation / NUMBER_OF_DIGITS);
+    return createResponse(rawValues.size(), chiSquared, sumAbsoluteDeviation / NUMBER_OF_DIGITS);
   }
 
   @VisibleForTesting static int toFirstDigit(final String value) {
@@ -60,8 +60,9 @@ public class DigitAnalyserImpl implements DigitAnalyser {
     return leadingDigit;
   }
 
-  private AnalysisResponse createResponse(final double chiSquared, final double meanAbsoluteDeviation) {
+  private AnalysisResponse createResponse(final int factsAnalysed, final double chiSquared, final double meanAbsoluteDeviation) {
     final AnalysisResponse response = new AnalysisResponse();
+    response.setAnalysedFactCount(factsAnalysed);
     response.setChiSquared(chiSquared);
     response.setMeanAbsoluteDeviation(meanAbsoluteDeviation);
     return response;
