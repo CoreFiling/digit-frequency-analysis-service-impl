@@ -17,7 +17,7 @@ import com.google.common.annotations.VisibleForTesting;
 /** Analyses the digits in fact values. */
 public class DigitAnalyserImpl implements DigitAnalyser {
 
-  private static final AnalysisResponse EMPTY_RESPONSE = new AnalysisResponse().analysedFactCount(0);
+  private static final AnalysisResponse NO_FACTS_RESPONSE = new AnalysisResponse().analysedFactCount(0);
 
   private static final int NUMBER_OF_DIGITS = 9;
 
@@ -30,7 +30,7 @@ public class DigitAnalyserImpl implements DigitAnalyser {
         .collect(toList());
 
     if (rawValues.isEmpty()) {
-      return EMPTY_RESPONSE;
+      return NO_FACTS_RESPONSE;
     }
 
     final Map<Integer, Long> digitToCount = rawValues.stream().collect(groupingBy(DigitAnalyserImpl::toFirstDigit, counting()));
