@@ -1,3 +1,5 @@
-imageRepository: labs
-imageName: digit-frequency-analysis-service-impl
+global:
+  registry: REGISTRY
+
+image: labs/digit-frequency-analysis-service-impl
 imageTag: dev
