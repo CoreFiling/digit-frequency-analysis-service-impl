@@ -84,7 +84,7 @@ public abstract class FilingInserter implements AutoCloseable {
     return facts;
   }
 
-  protected int getNumberOfFacts() {
+  public int getNumberOfFacts() {
     return 200;
   }
 

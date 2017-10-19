@@ -1,5 +1,6 @@
 package com.corefiling.labs.service.impl;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertNull;
@@ -34,6 +35,8 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
     }) {
       final UUID filingVersionId = inserter.insert();
       final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
+      // Some of these will be less than 10 and excluded.
+      assertThat(response.getFactsAnalysed().intValue(), greaterThan(inserter.getNumberOfFacts() / 2));
       assertThat(response.getChiSquared(), greaterThan(15.5));
       assertThat(response.getMeanAbsoluteDeviation(), greaterThan(0.05));
     }
@@ -77,25 +80,27 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
     }) {
       final UUID filingVersionId = inserter.insert();
       final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
+      assertThat(response.getFactsAnalysed().intValue(), equalTo(inserter.getNumberOfFacts()));
       assertThat(response.getChiSquared(), lessThan(15.5));
       assertThat(response.getMeanAbsoluteDeviation(), lessThan(0.05));
     }
   }
 
   @Test
-  public void testNotEnoughData() throws Exception {
+  public void testNoRelevantData() throws Exception {
     try (FilingInserter inserter = new FilingInserter(_instanceServiceClient, _protectedResources) {
       @Override
-      protected int getNumberOfFacts() {
+      public int getNumberOfFacts() {
         return 5;
       };
       @Override
       protected String getValue(final int i) {
-        return "123";
+        return "1";
       }
     }) {
       final UUID filingVersionId = inserter.insert();
       final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
+      assertThat(response.getFactsAnalysed().intValue(), equalTo(0));
       assertNull(response.getChiSquared());
       assertNull(response.getMeanAbsoluteDeviation());
     }
