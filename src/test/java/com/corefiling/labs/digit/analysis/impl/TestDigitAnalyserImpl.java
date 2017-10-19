@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.corefiling.labs.digit.analysis.NumericFactValue;
-import com.corefiling.labs.digit.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
+import com.corefiling.labs.digit.model.AnalysisResponse;
 import com.google.common.collect.ImmutableList;
 
 import junitparams.JUnitParamsRunner;
