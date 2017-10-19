@@ -1,4 +1,4 @@
-package com.corefiling.labs.model;
+package com.corefiling.labs.digit.model;
 
 import java.util.Objects;
 

@@ -1,4 +1,4 @@
-package com.corefiling.labs.service;
+package com.corefiling.labs.digit.service;
 
 import java.util.Optional;
 
@@ -9,10 +9,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.annotation.RequestScope;
 
-import com.corefiling.labs.analysis.DigitAnalyser;
-import com.corefiling.labs.analysis.FactRequester;
-import com.corefiling.labs.analysis.impl.DigitAnalyserImpl;
-import com.corefiling.labs.analysis.impl.FactRequesterImpl;
+import com.corefiling.labs.digit.analysis.DigitAnalyser;
+import com.corefiling.labs.digit.analysis.FactRequester;
+import com.corefiling.labs.digit.analysis.impl.DigitAnalyserImpl;
+import com.corefiling.labs.digit.analysis.impl.FactRequesterImpl;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,7 +27,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class DigitFrequencyAnalysisServiceImplConfiguration {
 
-  @Value("${com.corefiling.labs.instanceServer}")
+  @Value("${com.corefiling.labs.digit.instanceServer}")
   private String _instanceServiceBasePath;
 
   @Bean

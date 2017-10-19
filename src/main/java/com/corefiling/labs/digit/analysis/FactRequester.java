@@ -1,4 +1,4 @@
-package com.corefiling.labs.analysis;
+package com.corefiling.labs.digit.analysis;
 
 import java.util.List;
 import java.util.UUID;

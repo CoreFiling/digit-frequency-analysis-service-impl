@@ -1,4 +1,4 @@
-package com.corefiling.labs.service;
+package com.corefiling.labs.digit.service;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
-import com.corefiling.labs.analysis.impl.FailedToGetFactsException;
-import com.corefiling.labs.exception.NotFoundException;
-import com.corefiling.labs.model.ErrorResponse;
+import com.corefiling.labs.digit.analysis.impl.FailedToGetFactsException;
+import com.corefiling.labs.digit.exception.NotFoundException;
+import com.corefiling.labs.digit.model.ErrorResponse;
 import com.corefiling.platform.instanceService.ApiException;
 
 /**

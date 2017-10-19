@@ -1,4 +1,4 @@
-package com.corefiling.labs.service.controllers;
+package com.corefiling.labs.digit.service.controllers;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -6,8 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.corefiling.labs.model.StatusResponse;
-import com.corefiling.labs.model.StatusResponse.StatusEnum;
+import com.corefiling.labs.digit.model.StatusResponse;
+import com.corefiling.labs.digit.model.StatusResponse.StatusEnum;
 
 /**
  * Controller for the /status API endpoint.

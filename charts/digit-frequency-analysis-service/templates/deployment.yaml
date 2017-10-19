@@ -21,7 +21,7 @@ spec:
             - name: http
               containerPort: 80
           env:
-            - name: com_corefiling_labs_instanceServer
+            - name: com_corefiling_labs_digit_instanceServer
               value: {{ .Values.instanceServerPath }}
           readinessProbe:
             tcpSocket:

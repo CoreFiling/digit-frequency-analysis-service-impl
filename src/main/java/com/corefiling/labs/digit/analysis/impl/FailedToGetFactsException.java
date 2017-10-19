@@ -1,4 +1,4 @@
-package com.corefiling.labs.analysis.impl;
+package com.corefiling.labs.digit.analysis.impl;
 
 import com.corefiling.platform.instanceService.ApiException;
 

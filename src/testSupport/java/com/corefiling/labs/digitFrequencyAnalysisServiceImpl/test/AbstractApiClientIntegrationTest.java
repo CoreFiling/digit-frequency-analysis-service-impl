@@ -26,7 +26,7 @@ import org.keycloak.authorization.client.Configuration;
 public class AbstractApiClientIntegrationTest {
 
   private static final String HOST = System.getProperty("service.url", "http://localhost:8601/");
-  private static final String INSTANCE_SERVICE_HOST = System.getProperty("com.corefiling.labs.instanceServer", "https://platform-api.cfl.io/instance-service/");
+  private static final String INSTANCE_SERVICE_HOST = System.getProperty("com.corefiling.labs.digit.instanceServer", "https://platform-api.cfl.io/instance-service/");
   private static final String KEYCLOAK_HOST = System.getProperty("keycloak.url", "https://login.corefiling.com/auth");
 
   private final ExpectedException _thrown = ExpectedException.none();
