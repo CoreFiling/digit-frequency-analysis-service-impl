@@ -1,4 +1,4 @@
-package com.corefiling.labs.service;
+package com.corefiling.labs.digit.service;
 
 /**
  * A class which can be referenced for Spring component detection.

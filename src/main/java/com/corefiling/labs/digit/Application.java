@@ -1,10 +1,10 @@
-package com.corefiling.labs;
+package com.corefiling.labs.digit;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.corefiling.labs.service.ComponentScanMarker;
+import com.corefiling.labs.digit.service.ComponentScanMarker;
 
 /**
  * Spring boot application entry point.

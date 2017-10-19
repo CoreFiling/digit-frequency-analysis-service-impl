@@ -1,4 +1,4 @@
-package com.corefiling.labs.service.controllers;
+package com.corefiling.labs.digit.service.controllers;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.corefiling.labs.model.AnalysisResponse;
-import com.corefiling.labs.service.AnalyseApi;
+import com.corefiling.labs.digit.model.AnalysisResponse;
+import com.corefiling.labs.digit.service.AnalyseApi;
 
 /**
  * Controller for the /analyse API endpoint.

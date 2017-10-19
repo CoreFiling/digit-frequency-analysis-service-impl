@@ -1,4 +1,4 @@
-package com.corefiling.labs.exception;
+package com.corefiling.labs.digit.exception;
 
 /**
  * Thrown when a filing is not found.

@@ -1,4 +1,4 @@
-package com.corefiling.labs.analysis.impl;
+package com.corefiling.labs.digit.analysis.impl;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.nCopies;
@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.corefiling.labs.analysis.NumericFactValue;
-import com.corefiling.labs.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
+import com.corefiling.labs.digit.analysis.NumericFactValue;
+import com.corefiling.labs.digit.digitFrequencyAnalysisService.abstractSpringBoot.model.AnalysisResponse;
 import com.google.common.collect.ImmutableList;
 
 import junitparams.JUnitParamsRunner;

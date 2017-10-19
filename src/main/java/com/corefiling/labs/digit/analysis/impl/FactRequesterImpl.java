@@ -1,4 +1,4 @@
-package com.corefiling.labs.analysis.impl;
+package com.corefiling.labs.digit.analysis.impl;
 
 import static com.corefiling.platform.instanceService.model.Fact.TypeEnum.NUMERICFACT;
 import static java.util.stream.Collectors.toList;
@@ -9,9 +9,9 @@ import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 
-import com.corefiling.labs.analysis.FactRequester;
-import com.corefiling.labs.analysis.NumericFactValue;
-import com.corefiling.labs.exception.NotFoundException;
+import com.corefiling.labs.digit.analysis.FactRequester;
+import com.corefiling.labs.digit.analysis.NumericFactValue;
+import com.corefiling.labs.digit.exception.NotFoundException;
 import com.corefiling.platform.instanceService.ApiClient;
 import com.corefiling.platform.instanceService.ApiException;
 import com.corefiling.platform.instanceService.FactsApi;

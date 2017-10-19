@@ -1,4 +1,4 @@
 server:
   port: 8601
 
-com.corefiling.labs.instanceServer: https://platform-api.cfl.io/instance-service/
+com.corefiling.labs.digit.instanceServer: https://platform-api.cfl.io/instance-service/

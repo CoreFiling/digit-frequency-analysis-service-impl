@@ -23,10 +23,11 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.rules.SpringClassRule;
 import org.springframework.test.context.junit4.rules.SpringMethodRule;
 
-import com.corefiling.labs.Application;
-import com.corefiling.labs.model.StatusResponse;
-import com.corefiling.labs.model.StatusResponse.StatusEnum;
-import com.corefiling.labs.service.DigitFrequencyAnalysisServiceImplConfiguration;
+import com.corefiling.labs.digit.Application;
+import com.corefiling.labs.digit.model.StatusResponse;
+import com.corefiling.labs.digit.model.StatusResponse.StatusEnum;
+import com.corefiling.labs.digit.service.DigitFrequencyAnalysisServiceImplConfiguration;
+import com.corefiling.labs.digit.service.controllers.StatusController;
 
 /**
  * Functional tests for {@link StatusController}.

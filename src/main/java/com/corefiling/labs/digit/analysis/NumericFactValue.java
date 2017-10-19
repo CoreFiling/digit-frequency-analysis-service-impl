@@ -1,4 +1,4 @@
-package com.corefiling.labs.analysis;
+package com.corefiling.labs.digit.analysis;
 
 /** The value of a numeric fact. */
 public interface NumericFactValue {

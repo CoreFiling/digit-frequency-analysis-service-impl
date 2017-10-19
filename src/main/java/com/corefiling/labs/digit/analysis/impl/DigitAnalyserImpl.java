@@ -1,4 +1,4 @@
-package com.corefiling.labs.analysis.impl;
+package com.corefiling.labs.digit.analysis.impl;
 
 import static java.util.stream.Collectors.counting;
 import static java.util.stream.Collectors.groupingBy;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.corefiling.labs.analysis.DigitAnalyser;
-import com.corefiling.labs.analysis.NumericFactValue;
-import com.corefiling.labs.model.AnalysisResponse;
+import com.corefiling.labs.digit.analysis.DigitAnalyser;
+import com.corefiling.labs.digit.analysis.NumericFactValue;
+import com.corefiling.labs.digit.model.AnalysisResponse;
 import com.google.common.annotations.VisibleForTesting;
 
 /** Analyses the digits in fact values. */
