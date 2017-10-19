@@ -1,5 +1,6 @@
 package com.corefiling.labs.digit.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.google.common.base.Preconditions;
@@ -10,6 +11,7 @@ import com.google.common.base.Preconditions;
 public class AnalysisResponse {
   private Double _chiSquared = null;
   private Double _meanAbsoluteDeviation = null;
+  private List<DigitStatistics> _digits = null;
   private Integer _analysedFactCount = null;
 
   public AnalysisResponse chiSquared(final Double chiSquared) {
@@ -63,6 +65,19 @@ public class AnalysisResponse {
     this._meanAbsoluteDeviation = Preconditions.checkNotNull(meanAbsoluteDeviation);
   }
 
+  public AnalysisResponse digits(final List<DigitStatistics> digits) {
+    setDigits(digits);
+    return this;
+  }
+
+  public List<DigitStatistics> getDigits() {
+    return _digits;
+  }
+
+  public void setDigits(final List<DigitStatistics> digits) {
+    _digits = digits;
+  }
+
   @Override
   public boolean equals(final java.lang.Object o) {
     if (this == o) {
@@ -73,13 +88,14 @@ public class AnalysisResponse {
     }
     final AnalysisResponse analysisResponse = (AnalysisResponse) o;
     return Objects.equals(this._chiSquared, analysisResponse._chiSquared)
+        && Objects.equals(this._meanAbsoluteDeviation, analysisResponse._meanAbsoluteDeviation)
         && Objects.equals(this._analysedFactCount, analysisResponse._analysedFactCount)
-        && Objects.equals(this._meanAbsoluteDeviation, analysisResponse._meanAbsoluteDeviation);
+        && Objects.equals(this._digits, analysisResponse._digits);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_chiSquared, _analysedFactCount, _meanAbsoluteDeviation);
+    return Objects.hash(_chiSquared, _meanAbsoluteDeviation, _analysedFactCount, _digits);
   }
 
   @Override
@@ -89,6 +105,7 @@ public class AnalysisResponse {
     sb.append("    chiSquared: ").append(toIndentedString(_chiSquared)).append("\n");
     sb.append("    factsAnalysed: ").append(toIndentedString(_analysedFactCount)).append("\n");
     sb.append("    meanAbsoluteDeviation: ").append(toIndentedString(_meanAbsoluteDeviation)).append("\n");
+    sb.append("    digits: ").append(toIndentedString(_digits)).append("\n");
     sb.append("}");
     return sb.toString();
   }
