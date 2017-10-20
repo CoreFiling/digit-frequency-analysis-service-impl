@@ -1,5 +1,7 @@
 package com.corefiling.labs.digit.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /** Represents the percentages for a single digit. */
 public class DigitProportion {
 
@@ -19,6 +21,7 @@ public class DigitProportion {
     _zTest = zTest;
   }
 
+  @JsonProperty("zTest")
   public double getZTest() {
     return _zTest;
   }
