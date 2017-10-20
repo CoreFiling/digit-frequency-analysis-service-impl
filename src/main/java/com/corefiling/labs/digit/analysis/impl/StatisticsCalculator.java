@@ -32,10 +32,6 @@ public class StatisticsCalculator {
       return _probabilityObserved;
     }
 
-    public double getProbabilityExpected() {
-      return _probabilityExpected;
-    }
-
     public double getAbsoluteProbabilityDeviation() {
       return Math.abs(_probabilityObserved - _probabilityExpected);
     }
@@ -50,12 +46,23 @@ public class StatisticsCalculator {
       return shouldApplyContinuityCorrection ? (absProbabilityDifference - _oneOver2N) / _standardDeviation : absProbabilityDifference / _standardDeviation;
     }
 
-    public double getLowerBound() {
-      return _probabilityExpected - (2.57 * _standardDeviation - _oneOver2N);
-    }
-
-    public double getUpperBound() {
-      return _probabilityExpected + (2.57 * _standardDeviation + _oneOver2N);
+    public double getPercentile(final double zThreshold) {
+      final double percentile = _probabilityExpected + zThreshold * _standardDeviation;
+      if (zThreshold < 0) {
+        // We want to continuity correct down for the lower percentile because we care about the area above it
+        final double correctedPercentile = percentile - _oneOver2N;
+        // But we don't want to correct below 0.
+        return correctedPercentile < 0 ? 0 : correctedPercentile;
+      }
+      else if (zThreshold == 0) {
+        return percentile;
+      }
+      else {
+        // We want to continuity correct up for the upper percentile because we are about the area below it.
+        final double correctedPercentile = percentile + _oneOver2N;
+        // But we don't want to correct over 1.
+        return correctedPercentile > 1 ? 1 : correctedPercentile;
+      }
     }
 
   }

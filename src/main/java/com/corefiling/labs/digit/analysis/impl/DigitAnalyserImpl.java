@@ -73,10 +73,10 @@ public class DigitAnalyserImpl implements DigitAnalyser {
             .setActualValue(digitCalculator.getProbabilityObserved())
             .setZTest(digitCalculator.getZTest())
             .setExpected(new ExpectedDigitProportion()
-                .setValue(digitCalculator.getProbabilityExpected())
+                .setValue(digitCalculator.getPercentile(0))
                 .setBounds(new ExpectedDigitProportionBounds()
-                    .setLower(digitCalculator.getLowerBound())
-                    .setUpper(digitCalculator.getUpperBound())
+                    .setLower(digitCalculator.getPercentile(-2.57))
+                    .setUpper(digitCalculator.getPercentile(2.57))
                     )
                 )
             );
