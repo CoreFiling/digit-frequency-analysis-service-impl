@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import com.corefiling.labs.digit.analysis.DigitAnalyser;
 import com.corefiling.labs.digit.analysis.NumericFactValue;
+import com.corefiling.labs.digit.analysis.impl.StatisticsCalculator.DigitStatisticsCalculator;
 import com.corefiling.labs.digit.model.AnalysisResponse;
 import com.corefiling.labs.digit.model.DigitProportion;
 import com.corefiling.labs.digit.model.DigitStatistics;
@@ -45,26 +46,14 @@ public class DigitAnalyserImpl implements DigitAnalyser {
     double sumAbsoluteDeviation = 0;
     final List<DigitStatistics> digits = Lists.newArrayList();
 
-    final double oneOver2N = 0.5d / totalCount;
+    final StatisticsCalculator statisticsCalculator = new StatisticsCalculator(totalCount);
+
     for (int digit = 1; digit <= NUMBER_OF_DIGITS; digit++) {
       final long countObserved = Optional.ofNullable(digitToCount.get(digit)).orElse(0L);
-      final double probabilityObserved = countObserved / totalCount;
-      final double probabilityExpected = Math.log10(1d + 1d / digit);
-      final double countExpected = probabilityExpected * totalCount;
-
-      final double absProbabilityDifference = Math.abs(probabilityObserved - probabilityExpected);
-      final double standardDeviation = Math.sqrt((probabilityExpected * (1d - probabilityExpected)) / totalCount);
-
-      final double lowerBound = probabilityExpected - (2.57 * standardDeviation - oneOver2N);
-      final double upperBound = probabilityExpected + (2.57 * standardDeviation + oneOver2N);
-
-      final boolean shouldApplyContinuityCorrection = absProbabilityDifference > oneOver2N;
-      final double zStat = shouldApplyContinuityCorrection ? (absProbabilityDifference - oneOver2N) / standardDeviation : absProbabilityDifference / standardDeviation;
-
-      digits.add(createDigit(digit, probabilityExpected, lowerBound, upperBound, probabilityObserved, zStat));
-
-      chiSquared += Math.pow(countObserved - countExpected, 2) / countExpected;
-      sumAbsoluteDeviation += absProbabilityDifference;
+      final DigitStatisticsCalculator calculation = statisticsCalculator.forDigit(digit, countObserved);
+      digits.add(createDigit(digit, calculation));
+      chiSquared += calculation.getSquaredDifferenceOverExpected();
+      sumAbsoluteDeviation += calculation.getAbsoluteProbabilityDeviation();
     }
 
     return createResponse(rawValues.size(), chiSquared, sumAbsoluteDeviation / NUMBER_OF_DIGITS, digits);
@@ -77,17 +66,17 @@ public class DigitAnalyserImpl implements DigitAnalyser {
     return leadingDigit;
   }
 
-  private DigitStatistics createDigit(final int digit, final double probabilityExpected, final double lowerBound, final double upperBound, final double probabilityObserved, final double zStat) {
+  private DigitStatistics createDigit(final int digit, final DigitStatisticsCalculator digitCalculator) {
     return new DigitStatistics()
         .setDigit(digit)
         .setProportion(new DigitProportion()
-            .setActualValue(probabilityObserved)
-            .setZTest(zStat)
+            .setActualValue(digitCalculator.getProbabilityObserved())
+            .setZTest(digitCalculator.getZTest())
             .setExpected(new ExpectedDigitProportion()
-                .setValue(probabilityExpected)
+                .setValue(digitCalculator.getProbabilityExpected())
                 .setBounds(new ExpectedDigitProportionBounds()
-                    .setLower(lowerBound)
-                    .setUpper(upperBound)
+                    .setLower(digitCalculator.getLowerBound())
+                    .setUpper(digitCalculator.getUpperBound())
                     )
                 )
             );

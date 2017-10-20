@@ -152,15 +152,15 @@ public class TestDigitAnalyserImpl {
   }
 
   private void assertDigit(final DigitStatistics digitStatistics, final int digit, final double actualProportion, final double expectedProportion, final double expectedLowerBound, final double expectedUpperBound, final double zTest) {
-    assertEquals(digit, digitStatistics.getDigit());
+    assertEquals("Digit", digit, digitStatistics.getDigit());
     final DigitProportion digitProportion = digitStatistics.getProportion();
-    assertEquals(actualProportion, digitProportion.getActualValue(), 0.005);
-    assertEquals(zTest, digitProportion.getZTest(), 0.005);
+    assertEquals("Actual value", actualProportion, digitProportion.getActualValue(), 0.005);
+    assertEquals("Z Test", zTest, digitProportion.getZTest(), 0.005);
     final ExpectedDigitProportion expectedDigitProportion = digitProportion.getExpected();
-    assertEquals(expectedProportion, expectedDigitProportion.getValue(), 0.005);
+    assertEquals("Expected value", expectedProportion, expectedDigitProportion.getValue(), 0.005);
     final ExpectedDigitProportionBounds expectedDigitProportionBounds = expectedDigitProportion.getBounds();
-    assertEquals(expectedLowerBound, expectedDigitProportionBounds.getLower(), 0.005);
-    assertEquals(expectedUpperBound, expectedDigitProportionBounds.getUpper(), 0.005);
+    assertEquals("Lower bound", expectedLowerBound, expectedDigitProportionBounds.getLower(), 0.005);
+    assertEquals("Upper bound", expectedUpperBound, expectedDigitProportionBounds.getUpper(), 0.005);
   }
 
 }
