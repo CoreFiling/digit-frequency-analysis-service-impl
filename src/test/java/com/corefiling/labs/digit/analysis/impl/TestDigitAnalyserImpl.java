@@ -3,8 +3,10 @@ package com.corefiling.labs.digit.analysis.impl;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -14,6 +16,10 @@ import org.junit.runner.RunWith;
 
 import com.corefiling.labs.digit.analysis.NumericFactValue;
 import com.corefiling.labs.digit.model.AnalysisResponse;
+import com.corefiling.labs.digit.model.DigitProportion;
+import com.corefiling.labs.digit.model.DigitStatistics;
+import com.corefiling.labs.digit.model.ExpectedDigitProportion;
+import com.corefiling.labs.digit.model.ExpectedDigitProportionBounds;
 import com.google.common.collect.ImmutableList;
 
 import junitparams.JUnitParamsRunner;
@@ -67,6 +73,7 @@ public class TestDigitAnalyserImpl {
     assertEquals(0, response.getAnalysedFactCount().intValue());
     assertNull(response.getChiSquared());
     assertNull(response.getMeanAbsoluteDeviation());
+    assertNull(response.getDigits());
   }
 
   @SuppressWarnings("unused")
@@ -88,6 +95,18 @@ public class TestDigitAnalyserImpl {
     assertEquals(200, response.getAnalysedFactCount().intValue());
     assertEquals(464.4, response.getChiSquared(), 0.05);
     assertEquals(0.155, response.getMeanAbsoluteDeviation(), 0.0005);
+
+    final List<DigitStatistics> digits = response.getDigits();
+    assertThat(digits, hasSize(9));
+    assertDigit(digits.get(0), 1, 1, 0.30, 0.22, 0.39, 21.47);
+    assertDigit(digits.get(1), 2, 0, 0.18, 0.11, 0.25, 6.45);
+    assertDigit(digits.get(2), 3, 0, 0.12, 0.07, 0.19, 5.24);
+    assertDigit(digits.get(3), 4, 0, 0.10, 0.05, 0.15, 4.51);
+    assertDigit(digits.get(4), 5, 0, 0.08, 0.03, 0.13, 4.02);
+    assertDigit(digits.get(5), 6, 0, 0.07, 0.02, 0.11, 3.65);
+    assertDigit(digits.get(6), 7, 0, 0.06, 0.02, 0.10, 3.36);
+    assertDigit(digits.get(7), 8, 0, 0.05, 0.01, 0.09, 3.12);
+    assertDigit(digits.get(8), 9, 0, 0.05, 0.01, 0.09, 2.93);
   }
 
   @Test
@@ -118,6 +137,30 @@ public class TestDigitAnalyserImpl {
     assertEquals(101, response.getAnalysedFactCount().intValue());
     assertEquals(0.091, response.getChiSquared(), 0.0005);
     assertEquals(0.00262, response.getMeanAbsoluteDeviation(), 0.000005);
+
+    final List<DigitStatistics> digits = response.getDigits();
+    assertThat(digits, hasSize(9));
+    assertDigit(digits.get(0), 1, 0.30, 0.30, 0.19, 0.42, 0.09);
+    assertDigit(digits.get(1), 2, 0.18, 0.18, 0.08, 0.28, 0.06);
+    assertDigit(digits.get(2), 3, 0.12, 0.12, 0.05, 0.21, 0.04);
+    assertDigit(digits.get(3), 4, 0.10, 0.10, 0.03, 0.18, 0.07);
+    assertDigit(digits.get(4), 5, 0.08, 0.08, 0.02, 0.15, 0.00);
+    assertDigit(digits.get(5), 6, 0.07, 0.07, 0.01, 0.14, 0.09);
+    assertDigit(digits.get(6), 7, 0.06, 0.06, 0.00, 0.12, 0.06);
+    assertDigit(digits.get(7), 8, 0.05, 0.05, 0.00, 0.11, 0.08);
+    assertDigit(digits.get(8), 9, 0.05, 0.05, 0.00, 0.10, 0.18);
+  }
+
+  private void assertDigit(final DigitStatistics digitStatistics, final int digit, final double actualProportion, final double expectedProportion, final double expectedLowerBound, final double expectedUpperBound, final double zTest) {
+    assertEquals(digit, digitStatistics.getDigit());
+    final DigitProportion digitProportion = digitStatistics.getProportion();
+    assertEquals(actualProportion, digitProportion.getActualValue(), 0.005);
+    assertEquals(zTest, digitProportion.getZTest(), 0.005);
+    final ExpectedDigitProportion expectedDigitProportion = digitProportion.getExpected();
+    assertEquals(expectedProportion, expectedDigitProportion.getValue(), 0.005);
+    final ExpectedDigitProportionBounds expectedDigitProportionBounds = expectedDigitProportion.getBounds();
+    assertEquals(expectedLowerBound, expectedDigitProportionBounds.getLower(), 0.005);
+    assertEquals(expectedUpperBound, expectedDigitProportionBounds.getUpper(), 0.005);
   }
 
 }
