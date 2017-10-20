@@ -3,6 +3,10 @@ package com.corefiling.labs.digit.analysis.impl;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.nCopies;
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -16,10 +20,9 @@ import org.junit.runner.RunWith;
 
 import com.corefiling.labs.digit.analysis.NumericFactValue;
 import com.corefiling.labs.digit.model.AnalysisResponse;
+import com.corefiling.labs.digit.model.DigitPercentileProportionValue;
 import com.corefiling.labs.digit.model.DigitProportion;
 import com.corefiling.labs.digit.model.DigitStatistics;
-import com.corefiling.labs.digit.model.ExpectedDigitProportion;
-import com.corefiling.labs.digit.model.ExpectedDigitProportionBounds;
 import com.google.common.collect.ImmutableList;
 
 import junitparams.JUnitParamsRunner;
@@ -98,15 +101,15 @@ public class TestDigitAnalyserImpl {
 
     final List<DigitStatistics> digits = response.getDigits();
     assertThat(digits, hasSize(9));
-    assertDigit(digits.get(0), 1, 1, 0.30, 0.22, 0.39, 21.47);
-    assertDigit(digits.get(1), 2, 0, 0.18, 0.10, 0.25, 6.45);
-    assertDigit(digits.get(2), 3, 0, 0.12, 0.06, 0.19, 5.24);
-    assertDigit(digits.get(3), 4, 0, 0.10, 0.04, 0.15, 4.51);
-    assertDigit(digits.get(4), 5, 0, 0.08, 0.03, 0.13, 4.02);
-    assertDigit(digits.get(5), 6, 0, 0.07, 0.02, 0.11, 3.65);
-    assertDigit(digits.get(6), 7, 0, 0.06, 0.01, 0.10, 3.36);
-    assertDigit(digits.get(7), 8, 0, 0.05, 0.01, 0.09, 3.12);
-    assertDigit(digits.get(8), 9, 0, 0.05, 0.01, 0.09, 2.93);
+    assertDigit(digits.get(0), 1, 1, 21.47, 0.22, 0.23, 0.30, 0.37, 0.39);
+    assertDigit(digits.get(1), 2, 0, 6.45, 0.10, 0.12, 0.18, 0.23, 0.25);
+    assertDigit(digits.get(2), 3, 0, 5.24, 0.06, 0.08, 0.12, 0.17, 0.19);
+    assertDigit(digits.get(3), 4, 0, 4.51, 0.04, 0.05, 0.10, 0.14, 0.15);
+    assertDigit(digits.get(4), 5, 0, 4.02, 0.03, 0.04, 0.08, 0.12, 0.13);
+    assertDigit(digits.get(5), 6, 0, 3.65, 0.02, 0.03, 0.07, 0.10, 0.11);
+    assertDigit(digits.get(6), 7, 0, 3.36, 0.01, 0.02, 0.06, 0.09, 0.10);
+    assertDigit(digits.get(7), 8, 0, 3.12, 0.01, 0.02, 0.05, 0.08, 0.09);
+    assertDigit(digits.get(8), 9, 0, 2.93, 0.01, 0.01, 0.05, 0.08, 0.09);
   }
 
   @Test
@@ -140,27 +143,32 @@ public class TestDigitAnalyserImpl {
 
     final List<DigitStatistics> digits = response.getDigits();
     assertThat(digits, hasSize(9));
-    assertDigit(digits.get(0), 1, 0.30, 0.30, 0.18, 0.42, 0.09);
-    assertDigit(digits.get(1), 2, 0.18, 0.18, 0.07, 0.28, 0.06);
-    assertDigit(digits.get(2), 3, 0.12, 0.12, 0.04, 0.21, 0.04);
-    assertDigit(digits.get(3), 4, 0.10, 0.10, 0.02, 0.18, 0.07);
-    assertDigit(digits.get(4), 5, 0.08, 0.08, 0.01, 0.15, 0.00);
-    assertDigit(digits.get(5), 6, 0.07, 0.07, 0.00, 0.14, 0.09);
-    assertDigit(digits.get(6), 7, 0.06, 0.06, 0.00, 0.12, 0.06);
-    assertDigit(digits.get(7), 8, 0.05, 0.05, 0.00, 0.11, 0.08);
-    assertDigit(digits.get(8), 9, 0.05, 0.05, 0.00, 0.10, 0.18);
+    assertDigit(digits.get(0), 1, 0.30, 0.09, 0.18, 0.21, 0.30, 0.40, 0.42);
+    assertDigit(digits.get(1), 2, 0.18, 0.06, 0.07, 0.10, 0.18, 0.26, 0.28);
+    assertDigit(digits.get(2), 3, 0.12, 0.04, 0.04, 0.06, 0.12, 0.19, 0.21);
+    assertDigit(digits.get(3), 4, 0.10, 0.07, 0.02, 0.03, 0.10, 0.16, 0.18);
+    assertDigit(digits.get(4), 5, 0.08, 0.00, 0.01, 0.02, 0.08, 0.14, 0.15);
+    assertDigit(digits.get(5), 6, 0.07, 0.09, 0.00, 0.01, 0.07, 0.12, 0.14);
+    assertDigit(digits.get(6), 7, 0.06, 0.06, 0.00, 0.01, 0.06, 0.11, 0.12);
+    assertDigit(digits.get(7), 8, 0.05, 0.08, 0.00, 0.00, 0.05, 0.10, 0.11);
+    assertDigit(digits.get(8), 9, 0.05, 0.18, 0.00, 0.00, 0.05, 0.09, 0.10);
   }
 
-  private void assertDigit(final DigitStatistics digitStatistics, final int digit, final double actualProportion, final double expectedProportion, final double expectedLowerBound, final double expectedUpperBound, final double zTest) {
+  // CSOFF: ParameterNumber
+  private void assertDigit(final DigitStatistics digitStatistics, final int digit, final double actualProportion, final double zTest,
+      final double percentile1, final double percentile5, final double percentile50, final double percentile95, final double percentile99) {
+  // CSON: ParameterNumber
     assertEquals("Digit", digit, digitStatistics.getDigit());
     final DigitProportion digitProportion = digitStatistics.getProportion();
     assertEquals("Actual value", actualProportion, digitProportion.getActualValue(), 0.005);
     assertEquals("Z Test", zTest, digitProportion.getZTest(), 0.005);
-    final ExpectedDigitProportion expectedDigitProportion = digitProportion.getExpected();
-    assertEquals("Expected value", expectedProportion, expectedDigitProportion.getValue(), 0.005);
-    final ExpectedDigitProportionBounds expectedDigitProportionBounds = expectedDigitProportion.getBounds();
-    assertEquals("Lower bound", expectedLowerBound, expectedDigitProportionBounds.getLower(), 0.005);
-    assertEquals("Upper bound", expectedUpperBound, expectedDigitProportionBounds.getUpper(), 0.005);
+
+    final List<DigitPercentileProportionValue> percentiles = digitProportion.getPercentiles();
+    assertThat(percentiles.get(0), allOf(hasProperty("percentile", equalTo(1.0)), hasProperty("value", closeTo(percentile1, 0.005))));
+    assertThat(percentiles.get(1), allOf(hasProperty("percentile", equalTo(5.0)), hasProperty("value", closeTo(percentile5, 0.005))));
+    assertThat(percentiles.get(2), allOf(hasProperty("percentile", equalTo(50.0)), hasProperty("value", closeTo(percentile50, 0.005))));
+    assertThat(percentiles.get(3), allOf(hasProperty("percentile", equalTo(95.0)), hasProperty("value", closeTo(percentile95, 0.005))));
+    assertThat(percentiles.get(4), allOf(hasProperty("percentile", equalTo(99.0)), hasProperty("value", closeTo(percentile99, 0.005))));
   }
 
 }

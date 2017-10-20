@@ -13,11 +13,11 @@ import com.corefiling.labs.digit.analysis.DigitAnalyser;
 import com.corefiling.labs.digit.analysis.NumericFactValue;
 import com.corefiling.labs.digit.analysis.impl.StatisticsCalculator.DigitStatisticsCalculator;
 import com.corefiling.labs.digit.model.AnalysisResponse;
+import com.corefiling.labs.digit.model.DigitPercentileProportionValue;
 import com.corefiling.labs.digit.model.DigitProportion;
 import com.corefiling.labs.digit.model.DigitStatistics;
-import com.corefiling.labs.digit.model.ExpectedDigitProportion;
-import com.corefiling.labs.digit.model.ExpectedDigitProportionBounds;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /** Analyses the digits in fact values. */
@@ -72,13 +72,13 @@ public class DigitAnalyserImpl implements DigitAnalyser {
         .setProportion(new DigitProportion()
             .setActualValue(digitCalculator.getProbabilityObserved())
             .setZTest(digitCalculator.getZTest())
-            .setExpected(new ExpectedDigitProportion()
-                .setValue(digitCalculator.getPercentile(0))
-                .setBounds(new ExpectedDigitProportionBounds()
-                    .setLower(digitCalculator.getPercentile(-2.57))
-                    .setUpper(digitCalculator.getPercentile(2.57))
-                    )
-                )
+            .setPercentiles(ImmutableList.of(
+                new DigitPercentileProportionValue().setPercentile(1).setValue(digitCalculator.getPercentile(-2.57)),
+                new DigitPercentileProportionValue().setPercentile(5).setValue(digitCalculator.getPercentile(-1.96)),
+                new DigitPercentileProportionValue().setPercentile(50).setValue(digitCalculator.getPercentile(0)),
+                new DigitPercentileProportionValue().setPercentile(95).setValue(digitCalculator.getPercentile(1.96)),
+                new DigitPercentileProportionValue().setPercentile(99).setValue(digitCalculator.getPercentile(2.57))
+                ))
             );
   }
 
