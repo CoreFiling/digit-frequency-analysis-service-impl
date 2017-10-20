@@ -72,7 +72,7 @@ public class DigitAnalyserImpl implements DigitAnalyser {
         .setProportion(new DigitProportion()
             .setActualValue(digitCalculator.getProbabilityObserved())
             .setZTest(digitCalculator.getZTest())
-            .setPercentiles(ImmutableList.of(
+            .setExpectedPercentiles(ImmutableList.of(
                 new DigitPercentileProportionValue().setPercentile(1).setValue(digitCalculator.getPercentile(-2.57)),
                 new DigitPercentileProportionValue().setPercentile(5).setValue(digitCalculator.getPercentile(-1.96)),
                 new DigitPercentileProportionValue().setPercentile(50).setValue(digitCalculator.getPercentile(0)),

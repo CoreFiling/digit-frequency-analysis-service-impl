@@ -30,12 +30,12 @@ public class DigitProportion {
     return _zTest;
   }
 
-  public DigitProportion setPercentiles(final List<DigitPercentileProportionValue> percentiles) {
+  public DigitProportion setExpectedPercentiles(final List<DigitPercentileProportionValue> percentiles) {
     _percentiles = percentiles;
     return this;
   }
 
-  public List<DigitPercentileProportionValue> getPercentiles() {
+  public List<DigitPercentileProportionValue> getExpectedPercentiles() {
     return _percentiles;
   }
 

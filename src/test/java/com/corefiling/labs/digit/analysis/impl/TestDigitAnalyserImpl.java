@@ -163,7 +163,7 @@ public class TestDigitAnalyserImpl {
     assertEquals("Actual value", actualProportion, digitProportion.getActualValue(), 0.005);
     assertEquals("Z Test", zTest, digitProportion.getZTest(), 0.005);
 
-    final List<DigitPercentileProportionValue> percentiles = digitProportion.getPercentiles();
+    final List<DigitPercentileProportionValue> percentiles = digitProportion.getExpectedPercentiles();
     assertThat(percentiles.get(0), allOf(hasProperty("percentile", equalTo(1.0)), hasProperty("value", closeTo(percentile1, 0.005))));
     assertThat(percentiles.get(1), allOf(hasProperty("percentile", equalTo(5.0)), hasProperty("value", closeTo(percentile5, 0.005))));
     assertThat(percentiles.get(2), allOf(hasProperty("percentile", equalTo(50.0)), hasProperty("value", closeTo(percentile50, 0.005))));
