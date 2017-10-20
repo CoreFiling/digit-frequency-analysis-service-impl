@@ -26,6 +26,8 @@ import com.google.common.collect.Sets;
 /** Inserts a filing into the instance-service. */
 public abstract class FilingInserter implements AutoCloseable {
 
+  private static final String DATA_SET = "3c69b1c1-fc3d-46e0-89cc-3544d9d24aa5";
+
   public static final int FACT_COUNT = 200;
 
   private final ApiClient _client;
@@ -42,7 +44,7 @@ public abstract class FilingInserter implements AutoCloseable {
     final String resourceID = _protectedResources.save(new ProtectedResource() {
       @Override
       public String getURI() throws Exception {
-        return "/data-set/test-data-set/filing/test-filing/filing-version/" + filingVersionId;
+        return "/data-set/" + DATA_SET + "/filing/test-filing/filing-version/" + filingVersionId;
       }
       @Override
       public String getType() {
