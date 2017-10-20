@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 /** Analyses the digits in fact values. */
 public class DigitAnalyserImpl implements DigitAnalyser {
 
-  private static final AnalysisResponse NO_FACTS_RESPONSE = new AnalysisResponse().analysedFactCount(0);
+  private static final AnalysisResponse NO_FACTS_RESPONSE = new AnalysisResponse().setAnalysedFactCount(0);
 
   private static final int NUMBER_OF_DIGITS = 9;
 
@@ -78,29 +78,27 @@ public class DigitAnalyserImpl implements DigitAnalyser {
   }
 
   private DigitStatistics createDigit(final int digit, final double probabilityExpected, final double lowerBound, final double upperBound, final double probabilityObserved, final double zStat) {
-    final DigitStatistics digitStats = new DigitStatistics();
-    digitStats.setDigit(digit);
-    final DigitProportion proportion = new DigitProportion();
-    proportion.setActualValue(probabilityObserved);
-    proportion.setZTest(zStat);
-    final ExpectedDigitProportion expected = new ExpectedDigitProportion();
-    expected.setValue(probabilityExpected);
-    final ExpectedDigitProportionBounds expectedBounds = new ExpectedDigitProportionBounds();
-    expectedBounds.setLower(lowerBound);
-    expectedBounds.setUpper(upperBound);
-    expected.setBounds(expectedBounds);
-    proportion.setExpected(expected);
-    digitStats.setProportion(proportion);
-    return digitStats;
+    return new DigitStatistics()
+        .setDigit(digit)
+        .setProportion(new DigitProportion()
+            .setActualValue(probabilityObserved)
+            .setZTest(zStat)
+            .setExpected(new ExpectedDigitProportion()
+                .setValue(probabilityExpected)
+                .setBounds(new ExpectedDigitProportionBounds()
+                    .setLower(lowerBound)
+                    .setUpper(upperBound)
+                    )
+                )
+            );
   }
 
   private AnalysisResponse createResponse(final int factsAnalysed, final double chiSquared, final double meanAbsoluteDeviation, final List<DigitStatistics> digits) {
-    final AnalysisResponse response = new AnalysisResponse();
-    response.setAnalysedFactCount(factsAnalysed);
-    response.setChiSquared(chiSquared);
-    response.setMeanAbsoluteDeviation(meanAbsoluteDeviation);
-    response.setDigits(digits);
-    return response;
+    return new AnalysisResponse()
+        .setAnalysedFactCount(factsAnalysed)
+        .setChiSquared(chiSquared)
+        .setMeanAbsoluteDeviation(meanAbsoluteDeviation)
+        .setDigits(digits);
   }
 
 }

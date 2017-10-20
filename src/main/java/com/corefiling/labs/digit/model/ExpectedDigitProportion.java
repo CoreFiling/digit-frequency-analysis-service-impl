@@ -6,16 +6,18 @@ public class ExpectedDigitProportion {
   private double _value;
   private ExpectedDigitProportionBounds _bounds;
 
-  public void setValue(final double value) {
+  public ExpectedDigitProportion setValue(final double value) {
     _value = value;
+    return this;
   }
 
   public double getValue() {
     return _value;
   }
 
-  public void setBounds(final ExpectedDigitProportionBounds bounds) {
+  public ExpectedDigitProportion setBounds(final ExpectedDigitProportionBounds bounds) {
     _bounds = bounds;
+    return this;
   }
 
   public ExpectedDigitProportionBounds getBounds() {

@@ -14,11 +14,6 @@ public class AnalysisResponse {
   private List<DigitStatistics> _digits = null;
   private Integer _analysedFactCount = null;
 
-  public AnalysisResponse chiSquared(final Double chiSquared) {
-    setChiSquared(chiSquared);
-    return this;
-  }
-
   /**
   * The number of facts analysed.
   * @return factsAnalysed
@@ -27,12 +22,8 @@ public class AnalysisResponse {
    return _analysedFactCount;
  }
 
- public void setAnalysedFactCount(final Integer analysedFactCount) {
+ public AnalysisResponse setAnalysedFactCount(final Integer analysedFactCount) {
    this._analysedFactCount = Preconditions.checkNotNull(analysedFactCount);
- }
-
- public AnalysisResponse analysedFactCount(final Integer analysedFactCount) {
-   setAnalysedFactCount(analysedFactCount);
    return this;
  }
 
@@ -44,12 +35,8 @@ public class AnalysisResponse {
     return _chiSquared;
   }
 
-  public void setChiSquared(final Double chiSquared) {
+  public AnalysisResponse setChiSquared(final Double chiSquared) {
     this._chiSquared = Preconditions.checkNotNull(chiSquared);
-  }
-
-  public AnalysisResponse meanAbsoluteDeviation(final Double meanAbsoluteDeviation) {
-    setMeanAbsoluteDeviation(meanAbsoluteDeviation);
     return this;
   }
 
@@ -61,12 +48,8 @@ public class AnalysisResponse {
     return _meanAbsoluteDeviation;
   }
 
-  public void setMeanAbsoluteDeviation(final Double meanAbsoluteDeviation) {
+  public AnalysisResponse setMeanAbsoluteDeviation(final Double meanAbsoluteDeviation) {
     this._meanAbsoluteDeviation = Preconditions.checkNotNull(meanAbsoluteDeviation);
-  }
-
-  public AnalysisResponse digits(final List<DigitStatistics> digits) {
-    setDigits(digits);
     return this;
   }
 
@@ -74,8 +57,9 @@ public class AnalysisResponse {
     return _digits;
   }
 
-  public void setDigits(final List<DigitStatistics> digits) {
+  public AnalysisResponse setDigits(final List<DigitStatistics> digits) {
     _digits = digits;
+    return this;
   }
 
   @Override

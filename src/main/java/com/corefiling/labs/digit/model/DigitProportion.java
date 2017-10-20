@@ -9,16 +9,18 @@ public class DigitProportion {
   private double _zTest;
   private ExpectedDigitProportion _expected;
 
-  public void setActualValue(final double actualValue) {
+  public DigitProportion setActualValue(final double actualValue) {
     _actualValue = actualValue;
+    return this;
   }
 
   public double getActualValue() {
     return _actualValue;
   }
 
-  public void setZTest(final double zTest) {
+  public DigitProportion setZTest(final double zTest) {
     _zTest = zTest;
+    return this;
   }
 
   @JsonProperty("zTest")
@@ -26,8 +28,9 @@ public class DigitProportion {
     return _zTest;
   }
 
-  public void setExpected(final ExpectedDigitProportion expected) {
+  public DigitProportion setExpected(final ExpectedDigitProportion expected) {
     _expected = expected;
+    return this;
   }
 
   public ExpectedDigitProportion getExpected() {

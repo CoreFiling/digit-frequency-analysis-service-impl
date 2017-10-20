@@ -6,16 +6,18 @@ public class DigitStatistics {
   private int _digit;
   private DigitProportion _proportion;
 
-  public void setDigit(final int digit) {
+  public DigitStatistics setDigit(final int digit) {
     _digit = digit;
+    return this;
   }
 
   public int getDigit() {
     return _digit;
   }
 
-  public void setProportion(final DigitProportion proportion) {
+  public DigitStatistics setProportion(final DigitProportion proportion) {
     _proportion = proportion;
+    return this;
   }
 
   public DigitProportion getProportion() {
