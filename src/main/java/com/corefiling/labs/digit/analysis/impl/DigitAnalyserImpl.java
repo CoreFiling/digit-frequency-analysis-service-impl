@@ -12,12 +12,17 @@ import java.util.Optional;
 import com.corefiling.labs.digit.analysis.DigitAnalyser;
 import com.corefiling.labs.digit.analysis.NumericFactValue;
 import com.corefiling.labs.digit.model.AnalysisResponse;
+import com.corefiling.labs.digit.model.DigitProportion;
+import com.corefiling.labs.digit.model.DigitStatistics;
+import com.corefiling.labs.digit.model.ExpectedDigitProportion;
+import com.corefiling.labs.digit.model.ExpectedDigitProportionBounds;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Lists;
 
 /** Analyses the digits in fact values. */
 public class DigitAnalyserImpl implements DigitAnalyser {
 
-  private static final AnalysisResponse NO_FACTS_RESPONSE = new AnalysisResponse().analysedFactCount(0);
+  private static final AnalysisResponse NO_FACTS_RESPONSE = new AnalysisResponse().setAnalysedFactCount(0);
 
   private static final int NUMBER_OF_DIGITS = 9;
 
@@ -38,19 +43,31 @@ public class DigitAnalyserImpl implements DigitAnalyser {
 
     double chiSquared = 0;
     double sumAbsoluteDeviation = 0;
+    final List<DigitStatistics> digits = Lists.newArrayList();
 
+    final double oneOver2N = 0.5d / totalCount;
     for (int digit = 1; digit <= NUMBER_OF_DIGITS; digit++) {
       final long countObserved = Optional.ofNullable(digitToCount.get(digit)).orElse(0L);
       final double probabilityObserved = countObserved / totalCount;
       final double probabilityExpected = Math.log10(1d + 1d / digit);
       final double countExpected = probabilityExpected * totalCount;
+
       final double absProbabilityDifference = Math.abs(probabilityObserved - probabilityExpected);
+      final double standardDeviation = Math.sqrt((probabilityExpected * (1d - probabilityExpected)) / totalCount);
+
+      final double lowerBound = probabilityExpected - (2.57 * standardDeviation - oneOver2N);
+      final double upperBound = probabilityExpected + (2.57 * standardDeviation + oneOver2N);
+
+      final boolean shouldApplyContinuityCorrection = absProbabilityDifference > oneOver2N;
+      final double zStat = shouldApplyContinuityCorrection ? (absProbabilityDifference - oneOver2N) / standardDeviation : absProbabilityDifference / standardDeviation;
+
+      digits.add(createDigit(digit, probabilityExpected, lowerBound, upperBound, probabilityObserved, zStat));
 
       chiSquared += Math.pow(countObserved - countExpected, 2) / countExpected;
       sumAbsoluteDeviation += absProbabilityDifference;
     }
 
-    return createResponse(rawValues.size(), chiSquared, sumAbsoluteDeviation / NUMBER_OF_DIGITS);
+    return createResponse(rawValues.size(), chiSquared, sumAbsoluteDeviation / NUMBER_OF_DIGITS, digits);
   }
 
   @VisibleForTesting static int toFirstDigit(final String value) {
@@ -60,12 +77,28 @@ public class DigitAnalyserImpl implements DigitAnalyser {
     return leadingDigit;
   }
 
-  private AnalysisResponse createResponse(final int factsAnalysed, final double chiSquared, final double meanAbsoluteDeviation) {
-    final AnalysisResponse response = new AnalysisResponse();
-    response.setAnalysedFactCount(factsAnalysed);
-    response.setChiSquared(chiSquared);
-    response.setMeanAbsoluteDeviation(meanAbsoluteDeviation);
-    return response;
+  private DigitStatistics createDigit(final int digit, final double probabilityExpected, final double lowerBound, final double upperBound, final double probabilityObserved, final double zStat) {
+    return new DigitStatistics()
+        .setDigit(digit)
+        .setProportion(new DigitProportion()
+            .setActualValue(probabilityObserved)
+            .setZTest(zStat)
+            .setExpected(new ExpectedDigitProportion()
+                .setValue(probabilityExpected)
+                .setBounds(new ExpectedDigitProportionBounds()
+                    .setLower(lowerBound)
+                    .setUpper(upperBound)
+                    )
+                )
+            );
+  }
+
+  private AnalysisResponse createResponse(final int factsAnalysed, final double chiSquared, final double meanAbsoluteDeviation, final List<DigitStatistics> digits) {
+    return new AnalysisResponse()
+        .setAnalysedFactCount(factsAnalysed)
+        .setChiSquared(chiSquared)
+        .setMeanAbsoluteDeviation(meanAbsoluteDeviation)
+        .setDigits(digits);
   }
 
 }

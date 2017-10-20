@@ -1,5 +1,6 @@
 package com.corefiling.labs.digit.model;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.google.common.base.Preconditions;
@@ -10,12 +11,8 @@ import com.google.common.base.Preconditions;
 public class AnalysisResponse {
   private Double _chiSquared = null;
   private Double _meanAbsoluteDeviation = null;
+  private List<DigitStatistics> _digits = null;
   private Integer _analysedFactCount = null;
-
-  public AnalysisResponse chiSquared(final Double chiSquared) {
-    setChiSquared(chiSquared);
-    return this;
-  }
 
   /**
   * The number of facts analysed.
@@ -25,12 +22,8 @@ public class AnalysisResponse {
    return _analysedFactCount;
  }
 
- public void setAnalysedFactCount(final Integer analysedFactCount) {
+ public AnalysisResponse setAnalysedFactCount(final Integer analysedFactCount) {
    this._analysedFactCount = Preconditions.checkNotNull(analysedFactCount);
- }
-
- public AnalysisResponse analysedFactCount(final Integer analysedFactCount) {
-   setAnalysedFactCount(analysedFactCount);
    return this;
  }
 
@@ -42,12 +35,8 @@ public class AnalysisResponse {
     return _chiSquared;
   }
 
-  public void setChiSquared(final Double chiSquared) {
+  public AnalysisResponse setChiSquared(final Double chiSquared) {
     this._chiSquared = Preconditions.checkNotNull(chiSquared);
-  }
-
-  public AnalysisResponse meanAbsoluteDeviation(final Double meanAbsoluteDeviation) {
-    setMeanAbsoluteDeviation(meanAbsoluteDeviation);
     return this;
   }
 
@@ -59,8 +48,18 @@ public class AnalysisResponse {
     return _meanAbsoluteDeviation;
   }
 
-  public void setMeanAbsoluteDeviation(final Double meanAbsoluteDeviation) {
+  public AnalysisResponse setMeanAbsoluteDeviation(final Double meanAbsoluteDeviation) {
     this._meanAbsoluteDeviation = Preconditions.checkNotNull(meanAbsoluteDeviation);
+    return this;
+  }
+
+  public List<DigitStatistics> getDigits() {
+    return _digits;
+  }
+
+  public AnalysisResponse setDigits(final List<DigitStatistics> digits) {
+    _digits = digits;
+    return this;
   }
 
   @Override
@@ -73,13 +72,14 @@ public class AnalysisResponse {
     }
     final AnalysisResponse analysisResponse = (AnalysisResponse) o;
     return Objects.equals(this._chiSquared, analysisResponse._chiSquared)
+        && Objects.equals(this._meanAbsoluteDeviation, analysisResponse._meanAbsoluteDeviation)
         && Objects.equals(this._analysedFactCount, analysisResponse._analysedFactCount)
-        && Objects.equals(this._meanAbsoluteDeviation, analysisResponse._meanAbsoluteDeviation);
+        && Objects.equals(this._digits, analysisResponse._digits);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_chiSquared, _analysedFactCount, _meanAbsoluteDeviation);
+    return Objects.hash(_chiSquared, _meanAbsoluteDeviation, _analysedFactCount, _digits);
   }
 
   @Override
@@ -89,6 +89,7 @@ public class AnalysisResponse {
     sb.append("    chiSquared: ").append(toIndentedString(_chiSquared)).append("\n");
     sb.append("    factsAnalysed: ").append(toIndentedString(_analysedFactCount)).append("\n");
     sb.append("    meanAbsoluteDeviation: ").append(toIndentedString(_meanAbsoluteDeviation)).append("\n");
+    sb.append("    digits: ").append(toIndentedString(_digits)).append("\n");
     sb.append("}");
     return sb.toString();
   }
