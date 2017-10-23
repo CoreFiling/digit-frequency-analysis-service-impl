@@ -1,5 +1,7 @@
 package com.corefiling.labs.digit.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /** Represents the percentages for a single digit. */
@@ -7,7 +9,7 @@ public class DigitProportion {
 
   private double _actualValue;
   private double _zTest;
-  private ExpectedDigitProportion _expected;
+  private List<DigitPercentileProportionValue> _percentiles;
 
   public DigitProportion setActualValue(final double actualValue) {
     _actualValue = actualValue;
@@ -28,13 +30,13 @@ public class DigitProportion {
     return _zTest;
   }
 
-  public DigitProportion setExpected(final ExpectedDigitProportion expected) {
-    _expected = expected;
+  public DigitProportion setExpectedPercentiles(final List<DigitPercentileProportionValue> percentiles) {
+    _percentiles = percentiles;
     return this;
   }
 
-  public ExpectedDigitProportion getExpected() {
-    return _expected;
+  public List<DigitPercentileProportionValue> getExpectedPercentiles() {
+    return _percentiles;
   }
 
 }

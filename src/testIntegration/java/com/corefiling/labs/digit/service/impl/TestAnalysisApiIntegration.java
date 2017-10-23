@@ -25,43 +25,57 @@ import com.corefiling.labs.digitFrequencyAnalysisService.AnalysisApi;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponse;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponseDigit;
 import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponseDigitProportion;
-import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponseDigitProportionExpected;
+import com.corefiling.labs.digitFrequencyAnalysisService.model.AnalysisResponseDigitProportionExpectedPercentiles;
 import com.corefiling.platform.instanceService.ApiClient;
 import com.google.common.base.Preconditions;
 
 /** Test /analyse. */
 public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest {
 
-  private final class RealisticExpectedValueMatcher extends TypeSafeDiagnosingMatcher<AnalysisResponseDigitProportionExpected> {
+  private final class RealisticExpectedValueMatcher extends TypeSafeDiagnosingMatcher<List<AnalysisResponseDigitProportionExpectedPercentiles>> {
     @Override
     public void describeTo(final Description description) {
       description.appendText("realistic expectations with the value between the bounds; the bounds are not too wide; and the bounds are the same size");
     }
     @Override
-    protected boolean matchesSafely(final AnalysisResponseDigitProportionExpected expected, final Description mismatchDescription) {
-      final double value = expected.getValue();
-      final double lower = expected.getBounds().getLower();
-      final double upper = expected.getBounds().getUpper();
+    protected boolean matchesSafely(final List<AnalysisResponseDigitProportionExpectedPercentiles> expected, final Description mismatchDescription) {
+      final double percentile1 = expected.get(0).getValue();
+      final double percentile5 = expected.get(1).getValue();
+      final double expectedValue = expected.get(2).getValue();
+      final double percentile95 = expected.get(3).getValue();
+      final double percentile99 = expected.get(4).getValue();
 
       boolean mismatch = false;
-      if (value < lower) {
-        mismatchDescription.appendText("value " + value + " is lower than the lower bound " + lower);
+      if (percentile5 < percentile1) {
+        mismatchDescription.appendText("5th percentile value " + percentile5 + " is lower than the 1st percentile value " + percentile1);
         mismatch = true;
       }
-      if (upper < value) {
-        mismatchDescription.appendText((mismatch ? " & " : "") + "value " + value + " is greater than the upper bound " + lower);
+      if (expectedValue < percentile5) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "expected value " + expectedValue + " is lower than the 5th percentile " + percentile5);
         mismatch = true;
       }
-      if (value - lower > 15) {
-        mismatchDescription.appendText((mismatch ? " & " : "") + "lower bound [" + lower + "," + value + "] is too large");
+      if (percentile95 < expectedValue) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "expected value " + expectedValue + " is greater than the 95th percentile value " + percentile95);
         mismatch = true;
       }
-      if (upper - value > 15) {
-        mismatchDescription.appendText((mismatch ? " & " : "") + "upper bound [" + value + "," + upper + "] is too large");
+      if (percentile99 < percentile95) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "95th percentile value " + percentile95 + " is greater than the 99th percentile value " + percentile99);
         mismatch = true;
       }
-      if ((value - lower) - (upper - value) > 0.05) {
-        mismatchDescription.appendText((mismatch ? " & " : "") + "size of lower bound [" + lower + "," + value + "] does not match size of the upper bound [" + value + "," + upper + "]");
+      if (expectedValue - percentile1 > 15) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "1st percentile range [" + percentile1 + "," + expectedValue + "] is too large");
+        mismatch = true;
+      }
+      if (percentile99 - expectedValue > 15) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "99th percentile range [" + expectedValue + "," + percentile99 + "] is too large");
+        mismatch = true;
+      }
+      if ((expectedValue - percentile5) - (percentile95 - expectedValue) > 0.05) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "size of 5th percentile range [" + percentile5 + "," + expectedValue + "] does not match size of the 95th percentile range [" + expectedValue + "," + percentile95 + "]");
+        mismatch = true;
+      }
+      if ((expectedValue - percentile1) - (percentile99 - expectedValue) > 0.05) {
+        mismatchDescription.appendText((mismatch ? " & " : "") + "size of 1st percentile range [" + percentile1 + "," + expectedValue + "] does not match size of the 99th percentile range [" + expectedValue + "," + percentile99 + "]");
         mismatch = true;
       }
       return !mismatch;
@@ -91,7 +105,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       assertThat(digits.stream().map(d -> d.getDigit()).collect(toList()), contains(1, 2, 3, 4, 5, 6, 7, 8, 9));
       assertThat(digits.stream().map(d -> d.getProportion().getActualValue()).collect(toList()), everyItem(both(greaterThan(0.06)).and(lessThan(0.16))));
       assertThat(digits.stream().filter(d -> d.getDigit() != 3).map(d -> d.getProportion().getZTest()).collect(toList()), everyItem(greaterThan(1.0)));
-      assertThat(digits.stream().map(d -> d.getProportion().getExpected()).collect(toList()), everyItem(new RealisticExpectedValueMatcher()));
+      assertThat(digits.stream().map(d -> d.getProportion().getExpectedPercentiles()).collect(toList()), everyItem(new RealisticExpectedValueMatcher()));
     }
   }
 
@@ -140,7 +154,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       final List<AnalysisResponseDigit> digits = response.getDigits();
       assertThat(digits.stream().map(d -> d.getDigit()).collect(toList()), contains(1, 2, 3, 4, 5, 6, 7, 8, 9));
       assertThat(digits.stream().filter(d -> d.getDigit() != 3).map(d -> d.getProportion().getZTest()).collect(toList()), everyItem(lessThan(1.0)));
-      assertThat(digits.stream().map(d -> d.getProportion().getExpected()).collect(toList()), everyItem(new RealisticExpectedValueMatcher()));
+      assertThat(digits.stream().map(d -> d.getProportion().getExpectedPercentiles()).collect(toList()), everyItem(new RealisticExpectedValueMatcher()));
       assertThat(digits.stream().map(d -> d.getProportion()).collect(toList()), everyItem(new TypeSafeDiagnosingMatcher<AnalysisResponseDigitProportion>() {
         @Override
         public void describeTo(final Description description) {
@@ -149,7 +163,11 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
         @Override
         protected boolean matchesSafely(final AnalysisResponseDigitProportion item, final Description mismatchDescription) {
           final double actualValue = item.getActualValue();
-          final double expectedValue = item.getExpected().getValue();
+          final double expectedValue = item.getExpectedPercentiles().stream()
+              .filter(p -> p.getPercentile() == 50.0)
+              .map(p -> p.getValue())
+              .reduce((d1, d2) -> { throw new AssertionError("Only one value should be present for 50th percentile."); })
+              .get();
           if (Math.abs(actualValue - expectedValue) > 0.5) {
             mismatchDescription.appendText("actual value " + actualValue + " is not approximately equal to expected value " + expectedValue);
             return false;
