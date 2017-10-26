@@ -23,7 +23,7 @@ public class AnalyseController {
   @Autowired
   private AnalyseApi _analyseApi;
 
-  @RequestMapping(value = "/filing-version/{filingVersionId}/digit-frequency", method = GET, produces = APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "/filing-versions/{filingVersionId}/digit-frequency", method = GET, produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<AnalysisResponse> getDigitFrequency(
       @PathVariable("filingVersionId") final UUID filingVersionId) throws Exception {
     return _analyseApi.getDigitFrequency(filingVersionId);

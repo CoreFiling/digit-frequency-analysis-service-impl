@@ -38,7 +38,7 @@ public class AbstractApiClientIntegrationTest {
 
   protected com.corefiling.labs.digitFrequencyAnalysisService.ApiClient createAuthenticatedClient() {
     final com.corefiling.labs.digitFrequencyAnalysisService.ApiClient client = new com.corefiling.labs.digitFrequencyAnalysisService.ApiClient();
-    client.setBasePath(URI.create(HOST).resolve("v1/").toString());
+    client.setBasePath(URI.create(HOST).resolve("v1").toString());
     client.setAccessToken(getToken());
     client.getHttpClient().setReadTimeout(10, TimeUnit.SECONDS);
     return client;
@@ -46,7 +46,7 @@ public class AbstractApiClientIntegrationTest {
 
   protected com.corefiling.platform.instanceService.ApiClient createAuthenticatedInstanceServiceClient() {
     final com.corefiling.platform.instanceService.ApiClient client = new com.corefiling.platform.instanceService.ApiClient();
-    client.setBasePath(URI.create(INSTANCE_SERVICE_HOST).resolve("v1/").toString());
+    client.setBasePath(URI.create(INSTANCE_SERVICE_HOST).resolve("v1").toString());
     client.setAccessToken(getToken());
     return client;
   }
