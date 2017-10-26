@@ -26,7 +26,7 @@ public class AnalyseApiImpl implements AnalyseApi {
   private DigitAnalyser _digitAnalyser;
 
   @Override
-  public ResponseEntity<AnalysisResponse> analyseFiling(final UUID filingVersionId) throws Exception {
+  public ResponseEntity<AnalysisResponse> getDigitFrequency(final UUID filingVersionId) throws Exception {
     final List<NumericFactValue> facts = _factRequester.getFacts(filingVersionId);
     final AnalysisResponse response = _digitAnalyser.analyse(facts);
     return ResponseEntity.ok(response);

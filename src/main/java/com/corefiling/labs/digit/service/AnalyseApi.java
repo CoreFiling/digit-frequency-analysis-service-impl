@@ -11,6 +11,6 @@ import com.corefiling.labs.digit.model.AnalysisResponse;
  */
 public interface AnalyseApi {
 
-  ResponseEntity<AnalysisResponse> analyseFiling(UUID filingVersionId) throws Exception;
+  ResponseEntity<AnalysisResponse> getDigitFrequency(UUID filingVersionId) throws Exception;
 
 }

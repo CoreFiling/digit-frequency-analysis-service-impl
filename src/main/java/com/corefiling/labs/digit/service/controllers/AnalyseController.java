@@ -1,6 +1,7 @@
 package com.corefiling.labs.digit.service.controllers;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import java.util.UUID;
 
@@ -14,19 +15,18 @@ import com.corefiling.labs.digit.model.AnalysisResponse;
 import com.corefiling.labs.digit.service.AnalyseApi;
 
 /**
- * Controller for the /analyse API endpoint.
+ * Controller.
  */
 @Controller
-@RequestMapping(value = "/analyse", produces = {APPLICATION_JSON_VALUE})
 public class AnalyseController {
 
   @Autowired
   private AnalyseApi _analyseApi;
 
-  @RequestMapping("/{filingVersionId}")
-  public ResponseEntity<AnalysisResponse> analyseFiling(
+  @RequestMapping(value = "/filing-version/{filingVersionId}/digit-frequency", method = GET, produces = APPLICATION_JSON_VALUE)
+  public ResponseEntity<AnalysisResponse> getDigitFrequency(
       @PathVariable("filingVersionId") final UUID filingVersionId) throws Exception {
-    return _analyseApi.analyseFiling(filingVersionId);
+    return _analyseApi.getDigitFrequency(filingVersionId);
   }
 
 }
