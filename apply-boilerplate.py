@@ -19,5 +19,4 @@ def ensure_has_boilerplate(path):
             fout.write(content)
 
 if __name__ == '__main__':
-    for directory in ('src'):
-        os.path.walk(directory, apply_boilerplate, None)
+    os.path.walk('src', apply_boilerplate, None)
