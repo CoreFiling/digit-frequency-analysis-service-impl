@@ -15,6 +15,8 @@ import org.apache.oltu.oauth2.client.response.OAuthJSONAccessTokenResponse;
 import org.apache.oltu.oauth2.common.exception.OAuthProblemException;
 import org.apache.oltu.oauth2.common.exception.OAuthSystemException;
 import org.apache.oltu.oauth2.common.message.types.GrantType;
+import org.glassfish.jersey.client.ClientProperties;
+import org.glassfish.jersey.client.JerseyClient;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 import org.keycloak.authorization.client.AuthzClient;
@@ -40,12 +42,15 @@ public class AbstractApiClientIntegrationTest {
     final com.corefiling.labs.digitFrequencyAnalysisService.ApiClient client = new com.corefiling.labs.digitFrequencyAnalysisService.ApiClient();
     client.setBasePath(URI.create(HOST).resolve("v1").toString());
     client.setAccessToken(getToken());
-    client.getHttpClient().setReadTimeout(10, TimeUnit.SECONDS);
+    client.getHttpClient().setReadTimeout(1, TimeUnit.MINUTES);
     return client;
   }
 
   protected com.corefiling.platform.instanceService.ApiClient createAuthenticatedInstanceServiceClient() {
     final com.corefiling.platform.instanceService.ApiClient client = new com.corefiling.platform.instanceService.ApiClient();
+    final JerseyClient http = (JerseyClient) client.getHttpClient();
+    final Integer oneMinute = 60000;
+    http.property(ClientProperties.READ_TIMEOUT, oneMinute);
     client.setBasePath(URI.create(INSTANCE_SERVICE_HOST).resolve("v1").toString());
     client.setAccessToken(getToken());
     return client;
