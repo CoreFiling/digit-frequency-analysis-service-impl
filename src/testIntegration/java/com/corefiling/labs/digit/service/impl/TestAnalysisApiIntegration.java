@@ -96,7 +96,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       }
     }) {
       final UUID filingVersionId = inserter.insert();
-      final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
+      final AnalysisResponse response = _analysisApi.getDigitFrequency(filingVersionId);
       assertThat(response.getAnalysedFactCount().intValue(), equalTo(FACT_COUNT));
       assertThat(response.getChiSquared(), greaterThan(15.5));
       assertThat(response.getMeanAbsoluteDeviation(), greaterThan(0.05));
@@ -146,7 +146,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       }
     }) {
       final UUID filingVersionId = inserter.insert();
-      final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
+      final AnalysisResponse response = _analysisApi.getDigitFrequency(filingVersionId);
       assertThat(response.getAnalysedFactCount().intValue(), equalTo(FACT_COUNT));
       assertThat(response.getChiSquared(), lessThan(15.5));
       assertThat(response.getMeanAbsoluteDeviation(), lessThan(0.05));
@@ -187,7 +187,7 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       }
     }) {
       final UUID filingVersionId = inserter.insert();
-      final AnalysisResponse response = _analysisApi.analyseFiling(filingVersionId);
+      final AnalysisResponse response = _analysisApi.getDigitFrequency(filingVersionId);
       assertThat(response.getAnalysedFactCount().intValue(), equalTo(0));
       assertNull(response.getChiSquared());
       assertNull(response.getMeanAbsoluteDeviation());
