@@ -113,8 +113,6 @@ deploy:service:
 testIntegration:
   <<: *gradle
   stage: integration
-  # Temporary while we investigate auth. issues with the instance service.
-  allow_failure: true
   before_script:
     - 'export JAVA_OPTS="$JAVA_OPTS -Dservice.url=`cat service.url`"'
   dependencies:
