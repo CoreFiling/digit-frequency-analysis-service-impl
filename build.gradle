@@ -37,6 +37,8 @@ checkstyle {
 }
 
 repositories {
+  // CoreFiling internal repositories required until sort out upload of
+  // the instance service API client to maven central.
   maven {
     url "https://artifacts.int.corefiling.com/cfl-default"
   }
@@ -73,7 +75,7 @@ task testIntegration(type: Test) {
 dependencies {
   def hamcrestVersion = '2.0.0.0'
   def jacksonVersion = '2.8.8'
-  compile group: 'com.corefiling.platform', name: 'instance-service-jersey', version: '1.5.1-dev.35186'
+  compile group: 'com.corefiling.platform', name: 'instance-service-jersey', version: '1.5.1'
   compile group: 'com.google.guava', name: 'guava', version: '21.0'
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
   compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jdk8', version: jacksonVersion
@@ -86,7 +88,7 @@ dependencies {
   testSupportCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.0'
   testSupportCompile group: 'com.github.npathai', name: 'hamcrest-optional', version: '2.0.0'
   testSupportCompile group: 'org.apache.oltu.oauth2', name: 'org.apache.oltu.oauth2.client', version: '1.0.2'
-  testSupportCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '0.1.0-dev.35184'
+  testSupportCompile group: 'com.corefiling.labs', name: 'digit-frequency-analysis-service', version: '1.0.0'
   testSupportCompile group: 'org.keycloak', name: 'keycloak-authz-client', version: '2.5.5.Final'
   testSupportCompile configurations.compile
 
