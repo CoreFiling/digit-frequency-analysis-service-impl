@@ -36,7 +36,7 @@ public class StatusController {
     return ResponseEntity.<StatusResponse>ok(new StatusResponse()
       .name("CoreFiling Labs Digit Frequency Analysis API")
       .status(StatusEnum.OK)
-      .apiVersion("0.1.0")
-      .implVersion("0.1.0"));
+      .apiVersion("1.0.0")
+      .implVersion("1.0.0"));
   }
 }
