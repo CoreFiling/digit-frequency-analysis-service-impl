@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -54,7 +55,7 @@ public class FactRequesterImpl implements FactRequester {
             return (NumericFactValue) new NumericFactValue() {
               @Override
               public boolean isMonetary() {
-                return fact.getUnit().getDenominators().isEmpty() && fact.getUnit().getNumerators().size() == 1 && fact.getUnit().getNumerators().get(0).getName().startsWith("iso4217:");
+                return fact.getUnit().getDenominators().isEmpty() && fact.getUnit().getNumerators().size() == 1 && fact.getUnit().getNumerators().get(0).getName().toLowerCase(Locale.ENGLISH).startsWith("iso4217:");
               }
               @Override
               public boolean hasValue() {
