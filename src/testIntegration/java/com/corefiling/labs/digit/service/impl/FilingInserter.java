@@ -95,7 +95,7 @@ public abstract class FilingInserter implements AutoCloseable {
       fact.setDimensionValues(emptyList());
       fact.setSourceInformations(emptyList());
       fact.setDecimals(new Decimals().infinite(true));
-      fact.setUnit(new Unit().numerators(singletonList(new Measure().name("iso4217:GBP"))));
+      fact.setUnit(new Unit().numerators(singletonList(new Measure().name(getNumerator()))));
 
       final String value = getValue(i);
       fact.setReportedValue(value);
@@ -104,6 +104,10 @@ public abstract class FilingInserter implements AutoCloseable {
       facts.add(fact);
     }
     return facts;
+  }
+
+  protected String getNumerator() {
+    return "iso4217:GBP";
   }
 
   protected abstract String getValue(int i);
