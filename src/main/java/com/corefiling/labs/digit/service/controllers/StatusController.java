@@ -37,6 +37,6 @@ public class StatusController {
       .name("CoreFiling Labs Digit Frequency Analysis API")
       .status(StatusEnum.OK)
       .apiVersion("1.0.0")
-      .implVersion("1.0.0"));
+      .implVersion("1.0.1"));
   }
 }

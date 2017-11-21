@@ -24,7 +24,10 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.lessThan;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
@@ -208,6 +211,27 @@ public class TestAnalysisApiIntegration extends AbstractApiClientIntegrationTest
       assertNull(response.getChiSquared());
       assertNull(response.getMeanAbsoluteDeviation());
       assertThat(response.getDigits(), empty()); // It's actually null but the client lies to us here.
+    }
+  }
+
+  @Test
+  public void testAcceptsUpperCaseISO4217() throws Exception {
+    try (FilingInserter inserter = new FilingInserter(_instanceServiceClient, _protectedResources) {
+      @Override
+      protected String getNumerator() {
+        return "ISO4217:USD";
+      };
+      @Override
+      protected String getValue(final int i) {
+        return "100";
+      }
+    }) {
+      final UUID filingVersionId = inserter.insert();
+      final AnalysisResponse response = _analysisApi.getDigitFrequency(filingVersionId);
+      assertEquals(FACT_COUNT, response.getAnalysedFactCount().intValue());
+      assertNotNull(response.getChiSquared());
+      assertNotNull(response.getMeanAbsoluteDeviation());
+      assertThat(response.getDigits(), hasSize(9));
     }
   }
 

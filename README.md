@@ -1,7 +1,7 @@
 # CoreFiling Labs Digit Frequency Analysis Service Implementation
 
 Spring-Boot-based Java service that retrieves an instance document from the
-CoreFiling Platform Instance Service and calculates statistics related to
+CoreFiling's True North Platform APIs and calculates statistics related to
 Benford's Law.
 
 ## Licence

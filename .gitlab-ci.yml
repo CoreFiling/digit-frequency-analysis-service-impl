@@ -84,8 +84,6 @@ publish chart:
 deploy:service:
   <<: *prepare_kube
   stage: deploy
-  # For release only - Gradle build generates wrong version in CI.
-  allow_failure: true
   environment: &environment
     name: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG
   dependencies:
@@ -115,8 +113,6 @@ deploy:service:
 testIntegration:
   <<: *gradle
   stage: integration
-  # Temporary while we investigate auth. issues with the instance service.
-  allow_failure: true
   before_script:
     - 'export JAVA_OPTS="$JAVA_OPTS -Dservice.url=`cat service.url`"'
   dependencies:

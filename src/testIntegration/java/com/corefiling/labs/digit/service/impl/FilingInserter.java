@@ -44,6 +44,8 @@ public abstract class FilingInserter implements AutoCloseable {
 
   private static final String DATA_SET = "3c69b1c1-fc3d-46e0-89cc-3544d9d24aa5";
 
+  private static final String FILING_ID = "e86a7669-caa3-4fde-97c9-43d0cb30d7b9";
+
   public static final int FACT_COUNT = 200;
 
   private final ApiClient _client;
@@ -60,7 +62,7 @@ public abstract class FilingInserter implements AutoCloseable {
     final String resourceID = _protectedResources.save(new ProtectedResource() {
       @Override
       public String getURI() throws Exception {
-        return "/data-set/" + DATA_SET + "/filing/test-filing/filing-version/" + filingVersionId;
+        return "/data-set/" + DATA_SET + "/filing/" + FILING_ID + "/filing-version/" + filingVersionId;
       }
       @Override
       public String getType() {
@@ -68,11 +70,11 @@ public abstract class FilingInserter implements AutoCloseable {
       }
       @Override
       public Set<String> getScopes() {
-        return ImmutableSet.of("urn:platform.corefiling.com:filing-version:read");
+        return ImmutableSet.of("urn:platform.corefiling.com:scope:filing-version:read");
       }
       @Override
       public String getName() {
-        return getType() + ": " + filingVersionId.toString();
+        return getType() + ":" + filingVersionId.toString();
       }
     });
     _createdResources.add(resourceID);
@@ -93,7 +95,7 @@ public abstract class FilingInserter implements AutoCloseable {
       fact.setDimensionValues(emptyList());
       fact.setSourceInformations(emptyList());
       fact.setDecimals(new Decimals().infinite(true));
-      fact.setUnit(new Unit().numerators(singletonList(new Measure().name("iso4217:GBP"))));
+      fact.setUnit(new Unit().numerators(singletonList(new Measure().name(getNumerator()))));
 
       final String value = getValue(i);
       fact.setReportedValue(value);
@@ -102,6 +104,10 @@ public abstract class FilingInserter implements AutoCloseable {
       facts.add(fact);
     }
     return facts;
+  }
+
+  protected String getNumerator() {
+    return "iso4217:GBP";
   }
 
   protected abstract String getValue(int i);
